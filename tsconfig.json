@@ -1,16 +1,15 @@
 {
   "compilerOptions": {
-    "module": "system",
+    "module": "commonjs",
     "target": "es2021",
     "sourceMap": true,
     "esModuleInterop": true,
     "outDir": "./build",
-    "outFile": "./build/index.js",
     "typeRoots": [
       "./node_modules/@types",
       "./src/types/express.d.ts"
     ],
-    "baseUrl": "./src",
+    "baseUrl": "./src/module",
     "declaration": true,
     "moduleResolution": "node"
   },
