@@ -1,5 +1,5 @@
 {
-  "name": "railgun",
+  "name": "bedrock",
   "version": "2.0.0",
   "description": "Jungol On-Demand Ranking System v2",
   "main": "build/index.js",
@@ -8,7 +8,7 @@
     "build": "node esbuild.js"
   },
   "bin": {
-    "railgun": "build/runner.js"
+    "bedrock": "build/runner.js"
   },
   "repository": {
     "type": "git",
