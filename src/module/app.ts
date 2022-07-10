@@ -4,15 +4,12 @@ import handler from "./util/handler";
 import Resp from "./types/response";
 import './util/env'
 
-declare const config: { version: string, commitHash: string, commitCount: number, buildDate: string };
-
-export default function ({port, name, cb} = {
-    port: 80, name: 'Jungol', cb: async ({}: any) => {
+export default function ({port, name, cb, config} = {
+    port: 80, name: 'Jungol', config: {} as any, cb: async ({}: any) => {
     }
 }) {
     return new Promise<void>(async (resolve) => {
         const app = express();
-
 
         prepare(app);
 

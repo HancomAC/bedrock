@@ -7,8 +7,8 @@ const express_1 = __importDefault(require("express"));
 const prepare_1 = __importDefault(require("./util/prepare"));
 const handler_1 = __importDefault(require("./util/handler"));
 require("./util/env");
-function default_1({ port, name, cb } = {
-    port: 80, name: 'Jungol', cb: async ({}) => {
+function default_1({ port, name, cb, config } = {
+    port: 80, name: 'Jungol', config: {}, cb: async ({}) => {
     }
 }) {
     return new Promise(async (resolve) => {
