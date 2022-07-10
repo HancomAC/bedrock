@@ -1,0 +1,38 @@
+{
+  "name": "railgun",
+  "version": "2.0.0",
+  "description": "Jungol On-Demand Ranking System v2",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "node esbuild.js"
+  },
+  "bin": {
+    "railgun": "build/runner.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HancomAC/railgun.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HancomAC/railgun/issues"
+  },
+  "homepage": "https://github.com/HancomAC/railgun#readme",
+  "dependencies": {
+    "args-parser": "^1.3.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "esbuild": "^0.14.48",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.3",
+    "typescript": "^4.7.4"
+  }
+}
