@@ -17,7 +17,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // src/runner.ts
 var childProcess = __toESM(require("child_process"));
 var path = __toESM(require("path"));
-var packageJson = require(path.join(require.main.path, "package.json"));
+var packageJson = require(path.join(process.cwd(), "package.json"));
 var makeAllPackagesExternalPlugin = {
   name: "make-all-packages-external",
   setup(build) {
@@ -28,15 +28,15 @@ var makeAllPackagesExternalPlugin = {
 var args = require("args-parser")(process.argv);
 var builded;
 require("esbuild").build({
-  entryPoints: [path.join(require.main.path, args.entry)],
-  outfile: path.join(require.main.path, args.dist),
+  entryPoints: [path.join(process.cwd(), args.entry)],
+  outfile: path.join(process.cwd(), args.dist),
   bundle: true,
   plugins: [makeAllPackagesExternalPlugin],
   platform: "node",
   define: {
     "config.version": `"${packageJson.version}"`,
-    "config.commitHash": `"${childProcess.execSync("git rev-parse HEAD", { cwd: require.main.path }).toString().trim()}"`,
-    "config.commitCount": `${childProcess.execSync("git rev-list --count HEAD", { cwd: require.main.path }).toString().trim()}`,
+    "config.commitHash": `"${childProcess.execSync("git rev-parse HEAD", { cwd: process.cwd() }).toString().trim()}"`,
+    "config.commitCount": `${childProcess.execSync("git rev-list --count HEAD", { cwd: process.cwd() }).toString().trim()}`,
     "config.buildDate": `"${new Date().toISOString()}"`,
     "config.port": args.dev ? "3006" : "80",
     "config.dev": `${args.dev}`
@@ -54,7 +54,7 @@ require("esbuild").build({
           console.log("\u26A1 Restarting server...");
           if (builded)
             builded.kill();
-          builded = childProcess.spawn("node", [path.join(require.main.path, args.dist)], { stdio: "inherit" });
+          builded = childProcess.spawn("node", [path.join(process.cwd(), args.dist)], { stdio: "inherit" });
         }
       }
     }
@@ -65,7 +65,7 @@ require("esbuild").build({
       console.log("");
     process.stdout.cursorTo(0, 0);
     console.log("\u26A1 Starting server...");
-    builded = childProcess.spawn("node", [path.join(require.main.path, args.dist)], { stdio: "inherit" });
+    builded = childProcess.spawn("node", [path.join(process.cwd(), args.dist)], { stdio: "inherit" });
   } else {
     console.log("\u2714 Build successful.");
   }
