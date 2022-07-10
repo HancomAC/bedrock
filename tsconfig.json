@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2020",
     "target": "es2021",
     "sourceMap": true,
     "esModuleInterop": true,
