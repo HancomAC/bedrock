@@ -35,7 +35,7 @@ let builded;
 require('esbuild').build({
     entryPoints: ['./src/module/index.ts'],
     outfile: 'build/index.js',
-    bundle: false,
+    bundle: true,
     plugins: [makeAllPackagesExternalPlugin, typePlugin],
     platform: 'node',
     define: {_bedrock: config},

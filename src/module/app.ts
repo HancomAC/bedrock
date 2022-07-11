@@ -40,7 +40,7 @@ export default function ({port, name, cb, config} = {
         app.get('/', (req, res) => {
             res.send(`${name} v${config.version}.${config.commitCount} (${config.commitHash})
             <br/>
-            By Bedrock v${_bedrock.version}.${_bedrock.commitCount} (${_bedrock.commitHash})`);
+            By <a href="https://github.com/HancomAC/bedrock">Bedrock</a> v${_bedrock.version}.${_bedrock.commitCount} (${_bedrock.commitHash})`);
         })
 
         app.use(handler(async () => {
