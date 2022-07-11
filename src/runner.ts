@@ -15,6 +15,15 @@ const args = require('args-parser')(process.argv);
 
 let builded;
 
+console.log({
+    'config.version': `"${packageJson.version}"`,
+    'config.commitHash': `"${childProcess.execSync('git rev-parse HEAD', {cwd: process.cwd()}).toString().trim()}"`,
+    'config.commitCount': `${childProcess.execSync('git rev-list --count HEAD', {cwd: process.cwd()}).toString().trim()}`,
+    'config.buildDate': `"${new Date().toISOString()}"`,
+    'config.port': args.port || (args.dev ? '3006' : '80'),
+    'config.dev': `${args.dev}`,
+})
+
 require('esbuild').build({
     entryPoints: [path.join(process.cwd(), args.entry)],
     outfile: path.join(process.cwd(), args.dist),
