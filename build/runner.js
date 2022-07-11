@@ -28,12 +28,12 @@ var makeAllPackagesExternalPlugin = {
 var args = require("args-parser")(process.argv);
 var builded;
 var config = JSON.stringify({
-  "version": `"${packageJson.version}"`,
-  "commitHash": `"${childProcess.execSync("git rev-parse HEAD", { cwd: process.cwd() }).toString().trim()}"`,
-  "commitCount": `${childProcess.execSync("git rev-list --count HEAD", { cwd: process.cwd() }).toString().trim()}`,
-  "buildDate": `"${new Date().toISOString()}"`,
-  "port": args.port || (args.dev ? "3006" : "80"),
-  "dev": `${args.dev}`
+  "version": packageJson.version,
+  "commitHash": childProcess.execSync("git rev-parse HEAD", { cwd: process.cwd() }).toString().trim(),
+  "commitCount": parseInt(childProcess.execSync("git rev-list --count HEAD", { cwd: process.cwd() }).toString().trim()),
+  "buildDate": new Date().toISOString(),
+  "port": args.port || (args.dev ? 3006 : 80),
+  "dev": args.dev
 });
 require("esbuild").build({
   entryPoints: [path.join(process.cwd(), args.entry)],
