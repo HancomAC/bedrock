@@ -1,73 +1,83 @@
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
-
-// src/runner.ts
-var childProcess = __toESM(require("child_process"));
-var path = __toESM(require("path"));
-var packageJson = require(path.join(process.cwd(), "package.json"));
-var makeAllPackagesExternalPlugin = {
-  name: "make-all-packages-external",
-  setup(build) {
-    build.onResolve({ filter: /\$[A-Za-z]+/ }, () => ({ external: false }));
-    build.onResolve({ filter: /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/ }, (args2) => ({ path: args2.path, external: true }));
-  }
-};
-var args = require("args-parser")(process.argv);
-var builded;
-var config = JSON.stringify({
-  "version": packageJson.version,
-  "commitHash": childProcess.execSync("git rev-parse HEAD", { cwd: process.cwd() }).toString().trim(),
-  "commitCount": parseInt(childProcess.execSync("git rev-list --count HEAD", { cwd: process.cwd() }).toString().trim()),
-  "buildDate": new Date().toISOString(),
-  "port": args.port || (args.dev ? 3006 : 80),
-  "dev": args.dev
-});
-require("esbuild").build({
-  entryPoints: [path.join(process.cwd(), args.entry)],
-  outfile: path.join(process.cwd(), args.dist),
-  bundle: true,
-  plugins: [makeAllPackagesExternalPlugin],
-  platform: "node",
-  define: { config },
-  ...args.dev ? {
-    watch: {
-      onRebuild(error) {
-        if (error)
-          console.error("\u26A0 watch build failed:", error);
-        else {
-          for (let i = 0; i < process.stdout.rows; i++)
-            console.log("");
-          process.stdout.cursorTo(0, 0);
-          console.log("\u2714 Build successful.");
-          console.log("\u26A1 Restarting server...");
-          if (builded)
-            builded.kill();
-          builded = childProcess.spawn("node", [path.join(process.cwd(), args.dist)], { stdio: "inherit" });
-        }
-      }
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
     }
-  } : {}
-}).then(() => {
-  if (args.dev) {
-    for (let i = 0; i < process.stdout.rows; i++)
-      console.log("");
-    process.stdout.cursorTo(0, 0);
-    console.log("\u26A1 Starting server...");
-    builded = childProcess.spawn("node", [path.join(process.cwd(), args.dist)], { stdio: "inherit" });
-  } else {
-    console.log("\u2714 Build successful.");
-  }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
 });
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const childProcess = __importStar(require("child_process"));
+const path = __importStar(require("path"));
+const packageJson = require(path.join(process.cwd(), 'package.json'));
+const makeAllPackagesExternalPlugin = {
+    name: 'make-all-packages-external',
+    setup(build) {
+        build.onResolve({ filter: /\$[A-Za-z]+/ }, () => ({ external: false }));
+        build.onResolve({ filter: /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/ }, args => ({ path: args.path, external: true }));
+    },
+};
+const args = require('args-parser')(process.argv);
+let builded;
+const config = JSON.stringify({
+    'version': packageJson.version,
+    'commitHash': childProcess.execSync('git rev-parse HEAD', { cwd: process.cwd() }).toString().trim(),
+    'commitCount': parseInt(childProcess.execSync('git rev-list --count HEAD', { cwd: process.cwd() }).toString().trim()),
+    'buildDate': new Date().toISOString(),
+    'port': args.port || (args.dev ? 3006 : 80),
+    'dev': args.dev,
+});
+require('esbuild').build({
+    entryPoints: [path.join(process.cwd(), args.entry)],
+    outfile: path.join(process.cwd(), args.dist),
+    bundle: true,
+    plugins: [makeAllPackagesExternalPlugin],
+    platform: 'node',
+    define: { config },
+    ...(args.dev ? {
+        watch: {
+            onRebuild(error) {
+                if (error)
+                    console.error('⚠ watch build failed:', error);
+                else {
+                    for (let i = 0; i < process.stdout.rows; i++)
+                        console.log('');
+                    process.stdout.cursorTo(0, 0);
+                    console.log('✔ Build successful.');
+                    console.log('⚡ Restarting server...');
+                    if (builded)
+                        builded.kill();
+                    builded = childProcess.spawn('node', [path.join(process.cwd(), args.dist)], { stdio: 'inherit' });
+                }
+            },
+        }
+    } : {}),
+}).then(() => {
+    if (args.dev) {
+        for (let i = 0; i < process.stdout.rows; i++)
+            console.log('');
+        process.stdout.cursorTo(0, 0);
+        console.log('⚡ Starting server...');
+        builded = childProcess.spawn('node', [path.join(process.cwd(), args.dist)], { stdio: 'inherit' });
+    }
+    else {
+        console.log('✔ Build successful.');
+    }
+});
+//# sourceMappingURL=runner.js.map
