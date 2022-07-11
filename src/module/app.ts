@@ -13,7 +13,7 @@ export default function ({port, name, cb, config} = {
     return new Promise<void>(async (resolve) => {
         if (config.port) port = config.port;
 
-        const app = express();
+        const app: express.Application = express();
 
         prepare(app);
 
@@ -39,7 +39,8 @@ export default function ({port, name, cb, config} = {
 
         app.get('/', (req, res) => {
             res.send(`${name} v${config.version}.${config.commitCount} (${config.commitHash})
-By Bedrock v${_bedrock.version}.${_bedrock.commitCount} (${_bedrock.commitHash})`);
+            <br/>
+            By Bedrock v${_bedrock.version}.${_bedrock.commitCount} (${_bedrock.commitHash})`);
         })
 
         app.use(handler(async () => {

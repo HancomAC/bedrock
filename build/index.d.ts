@@ -1,3 +1,4 @@
+/// <reference types="express" />
 declare module "runner" { }
 declare module "module/util/log" {
     function log(...args: any[]): void;
@@ -27,7 +28,7 @@ declare module "module/types/response" {
 declare module "module/util/handler" {
     import express from "express";
     import Resp from "module/types/response";
-    export default function (f: (req: express.Request) => Resp<any>): express.RequestHandler;
+    export default function (f: (req: express.Request) => Resp<any>): any;
 }
 declare module "module/util/env" { }
 declare module "module/app" {
