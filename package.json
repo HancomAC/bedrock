@@ -1,10 +1,9 @@
 {
   "name": "bedrock",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Jungol On-Demand Ranking System v2",
   "main": "build/module/index.js",
   "types": "build/module/index.d.ts",
-  "type": "module",
   "scripts": {
     "build": "node esbuild.js"
   },
