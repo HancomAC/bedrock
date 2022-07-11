@@ -35,12 +35,11 @@ let builded;
 require('esbuild').build({
     entryPoints: ['./src/module/index.ts'],
     outfile: 'build/index.js',
-    bundle: true,
+    bundle: false,
     plugins: [makeAllPackagesExternalPlugin, typePlugin],
     platform: 'node',
     define: {_bedrock: config},
 }).then(() => {
-    childProcess.execSync('tsc --emitDeclarationOnly')
     require('esbuild').build({
         entryPoints: ['./src/runner.ts'],
         outfile: 'build/runner.js',
