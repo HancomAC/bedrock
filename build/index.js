@@ -97,6 +97,8 @@ function app_default({ port, name, cb, config: config2 } = {
   }
 }) {
   return new Promise(async (resolve) => {
+    if (config2.port)
+      port = config2.port;
     const app = (0, import_express2.default)();
     prepare_default(app);
     await cb({

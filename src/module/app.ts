@@ -9,6 +9,8 @@ export default function ({port, name, cb, config} = {
     }
 }) {
     return new Promise<void>(async (resolve) => {
+        if (config.port) port = config.port;
+
         const app = express();
 
         prepare(app);
