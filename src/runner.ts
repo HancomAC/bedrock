@@ -16,12 +16,12 @@ const args = require('args-parser')(process.argv);
 let builded;
 
 const config = JSON.stringify({
-    'version': `"${packageJson.version}"`,
-    'commitHash': `"${childProcess.execSync('git rev-parse HEAD', {cwd: process.cwd()}).toString().trim()}"`,
-    'commitCount': `${childProcess.execSync('git rev-list --count HEAD', {cwd: process.cwd()}).toString().trim()}`,
-    'buildDate': `"${new Date().toISOString()}"`,
-    'port': args.port || (args.dev ? '3006' : '80'),
-    'dev': `${args.dev}`,
+    'version': packageJson.version,
+    'commitHash': childProcess.execSync('git rev-parse HEAD', {cwd: process.cwd()}).toString().trim(),
+    'commitCount': parseInt(childProcess.execSync('git rev-list --count HEAD', {cwd: process.cwd()}).toString().trim()),
+    'buildDate': new Date().toISOString(),
+    'port': args.port || (args.dev ? 3006 : 80),
+    'dev': args.dev,
 })
 
 require('esbuild').build({
@@ -30,7 +30,7 @@ require('esbuild').build({
     bundle: true,
     plugins: [makeAllPackagesExternalPlugin],
     platform: 'node',
-    define: { config },
+    define: {config},
     ...(args.dev ? {
         watch: {
             onRebuild(error) {
