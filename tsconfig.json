@@ -4,7 +4,7 @@
     "target": "es2021",
     "sourceMap": true,
     "esModuleInterop": true,
-    "outDir": "./build",
+    "outFile": "./build/index.js",
     "typeRoots": [
       "./node_modules/@types",
       "./src/types/express.d.ts"
