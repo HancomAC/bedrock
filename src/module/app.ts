@@ -4,6 +4,8 @@ import handler from "./util/handler";
 import Resp from "./types/response";
 import './util/env'
 
+declare const _bedrock: { version: string, commitHash: string, commitCount: number, buildDate: string };
+
 export default function ({port, name, cb, config} = {
     port: 80, name: 'Jungol', config: {} as any, cb: async ({}: any) => {
     }
@@ -36,7 +38,8 @@ export default function ({port, name, cb, config} = {
         })
 
         app.get('/', (req, res) => {
-            res.send(`${name} v${config.version}.${config.commitCount} (${config.commitHash})`);
+            res.send(`${name} v${config.version}.${config.commitCount} (${config.commitHash})
+By Bedrock v${_bedrock.version}.${_bedrock.commitCount} (${_bedrock.commitHash})`);
         })
 
         app.use(handler(async () => {

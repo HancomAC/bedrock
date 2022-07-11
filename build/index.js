@@ -27,6 +27,9 @@ __export(module_exports, {
 });
 module.exports = __toCommonJS(module_exports);
 
+// <define:_bedrock>
+var define_bedrock_default = { version: "1.0.7", commitHash: "ae7f8f38f00940cd497c53ea50ac5f0474368437", commitCount: 16, buildDate: "2022-07-11T07:17:07.629Z", port: 80 };
+
 // src/module/app.ts
 var import_express2 = __toESM(require("express"));
 
@@ -121,7 +124,8 @@ function app_default({ port, name, cb, config: config2 } = {
       }
     });
     app.get("/", (req, res) => {
-      res.send(`${name} v${config2.version}.${config2.commitCount} (${config2.commitHash})`);
+      res.send(`${name} v${config2.version}.${config2.commitCount} (${config2.commitHash})
+By Bedrock v${define_bedrock_default.version}.${define_bedrock_default.commitCount} (${define_bedrock_default.commitHash})`);
     });
     app.use(handler_default(async () => {
       return {
