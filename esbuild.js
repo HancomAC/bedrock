@@ -1,7 +1,6 @@
 const childProcess = require('child_process');
 const packageJson = require('./package.json');
 const path = require('path');
-const {execSync} = require("child_process");
 
 const typePlugin = {
     name: 'TypeScriptDeclarationsPlugin',
@@ -25,13 +24,21 @@ const args = require('args-parser')(process.argv);
 
 let builded;
 
-execSync('tsc')
 require('esbuild').build({
-    entryPoints: ['./src/runner.ts'],
-    outfile: 'build/runner.js',
+    entryPoints: ['./src/module/index.ts'],
+    outfile: 'build/index.js',
     bundle: true,
-    plugins: [makeAllPackagesExternalPlugin],
+    plugins: [makeAllPackagesExternalPlugin, typePlugin],
     platform: 'node',
 }).then(() => {
-    console.log('✔ Build successful.')
+    childProcess.execSync('tsc --emitDeclarationOnly')
+    require('esbuild').build({
+        entryPoints: ['./src/runner.ts'],
+        outfile: 'build/runner.js',
+        bundle: true,
+        plugins: [makeAllPackagesExternalPlugin],
+        platform: 'node',
+    }).then(() => {
+        console.log('✔ Build successful.')
+    })
 })
