@@ -17,6 +17,6 @@ export default function ({ port, name, cb, config }: {
     port?: number;
     name: string;
     config: any;
-    cb?: (data: AppConfig) => null;
+    cb?: (data: AppConfig) => any;
 }): Promise<void>;
 export {};
