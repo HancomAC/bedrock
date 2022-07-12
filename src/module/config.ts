@@ -1,1 +1,1 @@
-export default {"version":"1.0.11","commitHash":"3d63226148fabb7ec7c2f43806ea1965482df3be","commitCount":20,"buildDate":"2022-07-12T11:53:52.505Z","port":80}
+export default {"version":"1.0.12","commitHash":"c1d66057520015e281358b4e3b11aa3e1224a73d","commitCount":21,"buildDate":"2022-07-12T11:55:32.354Z","port":80}
