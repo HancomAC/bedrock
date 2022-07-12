@@ -3,7 +3,7 @@ import Resp from "./types/response";
 import './util/env';
 declare type App = express.Application;
 declare type Handler = (req: express.Request) => Resp<any>;
-declare type HandlerRegistrator = (path: string, handler: Handler) => void;
+declare type HandlerRegistrator = (path: string, handler: Handler) => any;
 interface AppConfig {
     app: App;
     config: any;
