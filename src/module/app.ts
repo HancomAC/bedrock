@@ -7,7 +7,7 @@ import _bedrock from './config'
 
 type App = express.Application
 type Handler = (req: express.Request) => Resp<any>
-type HandlerRegistrator = (path: string, handler: Handler) => void
+type HandlerRegistrator = (path: string, handler: Handler) => any
 
 interface AppConfig {
     app: App,
