@@ -20,7 +20,7 @@ interface AppConfig {
 }
 
 export default function ({port, name, cb, config}: {
-    port?: number, name: string, config: any, cb?: (data: AppConfig) => null
+    port?: number, name: string, config: any, cb?: (data: AppConfig) => any
 }) {
     return new Promise<void>(async (resolve) => {
         if (!name) name = 'Jungol'
