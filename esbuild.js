@@ -1,17 +1,8 @@
 const childProcess = require('child_process');
 const packageJson = require('./package.json');
 const path = require('path');
+const fs = require("fs");
 const args = require('args-parser')(process.argv);
-
-const typePlugin = {
-    name: 'TypeScriptDeclarationsPlugin',
-    setup(build) {
-        build.onEnd((result) => {
-            if (result.errors.length > 0) return
-            childProcess.execSync('tsc --emitDeclarationOnly')
-        })
-    }
-}
 
 const makeAllPackagesExternalPlugin = {
     name: 'make-all-packages-external',
@@ -30,23 +21,29 @@ const config = JSON.stringify({
     'dev': args.dev,
 })
 
+const typePlugin = {
+    name: 'TypeScriptDeclarationsPlugin',
+    setup(build) {
+        build.onEnd((result) => {
+            if (result.errors.length > 0) return
+            fs.writeSync('src/module/config.ts', `export default ${config}`)
+            childProcess.execSync('tsc')
+        })
+    }
+}
+
 let builded;
 
+
+fs.writeFileSync('src/module/config.ts', `export default ${config}`)
+childProcess.execSync('tsc')
+
 require('esbuild').build({
-    entryPoints: ['./src/module/index.ts'],
-    outfile: 'build/index.js',
+    entryPoints: ['./src/runner.ts'],
+    outfile: 'build/runner.js',
     bundle: true,
-    plugins: [makeAllPackagesExternalPlugin, typePlugin],
+    plugins: [makeAllPackagesExternalPlugin],
     platform: 'node',
-    define: {_bedrock: config},
 }).then(() => {
-    require('esbuild').build({
-        entryPoints: ['./src/runner.ts'],
-        outfile: 'build/runner.js',
-        bundle: true,
-        plugins: [makeAllPackagesExternalPlugin],
-        platform: 'node',
-    }).then(() => {
-        console.log('✔ Build successful.')
-    })
+    console.log('✔ Build successful.')
 })
