@@ -3,8 +3,7 @@ import prepare from "./util/prepare";
 import handler from "./util/handler";
 import Resp from "./types/response";
 import './util/env'
-
-declare const _bedrock: { version: string, commitHash: string, commitCount: number, buildDate: string };
+import _bedrock from './config'
 
 export default function ({port, name, cb, config} = {
     port: 80, name: 'Jungol', config: {} as any, cb: async ({}: any) => {
