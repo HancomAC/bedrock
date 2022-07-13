@@ -22,7 +22,7 @@ async function default_1(cb, options) {
             delete: (path, f) => {
                 router.delete(path, (0, handler_1.default)(f));
             },
-            use: router.use
+            use: router.use.bind(router)
         });
     return router;
 }
