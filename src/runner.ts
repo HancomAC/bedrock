@@ -31,6 +31,7 @@ require('esbuild').build({
     plugins: [makeAllPackagesExternalPlugin],
     platform: 'node',
     define: {config},
+    tsconfig: path.join(process.cwd(), 'tsconfig.json'),
     ...(args.dev ? {
         watch: {
             onRebuild(error) {
