@@ -37,9 +37,6 @@ function default_1({ port, name, cb, config }) {
                 },
                 delete: (path, f) => {
                     app.delete(path, (0, handler_1.default)(f));
-                },
-                use: (path, f) => {
-                    app.use(path, (0, handler_1.default)(f));
                 }
             });
         app.get('/', (req, res) => {
