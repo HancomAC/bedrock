@@ -49,7 +49,7 @@ export default function ({port, name, cb, config}: {
             delete: (path: string, f: (req: express.Request) => Resp<any>) => {
                 app.delete(path, handler(f))
             },
-            use: app.use
+            use: app.use.bind(app)
         })
 
         app.get('/', (req, res) => {

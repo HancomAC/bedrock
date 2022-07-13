@@ -10,5 +10,5 @@ interface RouterConfig {
     delete: HandlerRegistrator;
     use: express.IRouterHandler<any>;
 }
-export default function (cb?: (data: RouterConfig) => any, options?: RouterOptions): any;
+export default function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router>;
 export {};
