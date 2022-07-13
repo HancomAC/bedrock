@@ -1,6 +1,6 @@
 import express from "express";
 import Resp, {ResponseError} from "../types/response";
-import {error} from "./log";
+import {error} from "../util/log";
 
 export default function (f: (req: express.Request) => Resp<any>) {
     const middleware: express.RequestHandler = async (req, res) => {

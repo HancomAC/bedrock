@@ -1,6 +1,6 @@
 import express from 'express';
-import prepare from "./util/prepare";
-import handler from "./util/handler";
+import prepare from "./express/prepare";
+import handler from "./express/handler";
 import Resp from "./types/response";
 import './util/env'
 import _bedrock from './config'

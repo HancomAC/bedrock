@@ -1,9 +1,4 @@
-import App from "./app";
-import _log from "./util/log";
-import _router from "./express/router";
-export declare const log: typeof _log;
-export declare const router: typeof _router;
-export declare const gcp: {
+declare const gcp: {
     storage: {
         client: import("@google-cloud/storage").Storage;
         SubmissionBucket: import("@google-cloud/storage/build/src/bucket").Bucket;
@@ -13,4 +8,4 @@ export declare const gcp: {
         client: import("@google-cloud/datastore").Datastore;
     };
 };
-export default App;
+export default gcp;

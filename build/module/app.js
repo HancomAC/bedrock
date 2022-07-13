@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const prepare_1 = __importDefault(require("./util/prepare"));
-const handler_1 = __importDefault(require("./util/handler"));
+const prepare_1 = __importDefault(require("./express/prepare"));
+const handler_1 = __importDefault(require("./express/handler"));
 require("./util/env");
 const config_1 = __importDefault(require("./config"));
 function default_1({ port, name, cb, config }) {
