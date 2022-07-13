@@ -11,7 +11,6 @@ interface AppConfig {
     post: HandlerRegistrator;
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
-    use: HandlerRegistrator;
 }
 export default function ({ port, name, cb, config }: {
     port?: number;
