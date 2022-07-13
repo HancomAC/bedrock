@@ -31,5 +31,5 @@ export default function (options?: RouterOptions): BRouter {
     r.put = (path: string, f: (req: express.Request) => Resp<any>) => {
         r._put(path, handler(f))
     }
-    return r;
+    return r as BRouter;
 }
