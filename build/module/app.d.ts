@@ -11,6 +11,7 @@ interface AppConfig {
     post: HandlerRegistrator;
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
+    use: typeof express.application.use;
 }
 export default function ({ port, name, cb, config }: {
     port?: number;
