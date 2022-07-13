@@ -8,6 +8,7 @@ const prepare_1 = __importDefault(require("./express/prepare"));
 const handler_1 = __importDefault(require("./express/handler"));
 require("./util/env");
 const config_1 = __importDefault(require("./config"));
+const log_1 = __importDefault(require("./util/log"));
 function default_1({ port, name, cb, config }) {
     return new Promise(async (resolve) => {
         if (!name)
@@ -52,6 +53,8 @@ function default_1({ port, name, cb, config }) {
             };
         }));
         return app.listen(port, resolve);
+    }).then(() => {
+        (0, log_1.default)(`${name} v${config.version}.${config.commitCount} (${config.commitHash}) is running on port ${port}.`);
     });
 }
 exports.default = default_1;

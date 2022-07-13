@@ -4,6 +4,7 @@ import handler from "./express/handler";
 import Resp from "./types/response";
 import './util/env'
 import _bedrock from './config'
+import log from "./util/log";
 
 type App = express.Application
 type Handler = (req: express.Request) => Resp<any>
@@ -66,5 +67,7 @@ export default function ({port, name, cb, config}: {
         }))
 
         return app.listen(port, resolve);
+    }).then(() => {
+        log(`${name} v${config.version}.${config.commitCount} (${config.commitHash}) is running on port ${port}.`);
     })
 }
