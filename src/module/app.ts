@@ -16,6 +16,7 @@ interface AppConfig {
     post: HandlerRegistrator,
     put: HandlerRegistrator,
     delete: HandlerRegistrator,
+    use: typeof express.application.use
 }
 
 export default function ({port, name, cb, config}: {
@@ -47,7 +48,8 @@ export default function ({port, name, cb, config}: {
             },
             delete: (path: string, f: (req: express.Request) => Resp<any>) => {
                 app.delete(path, handler(f))
-            }
+            },
+            use: app.use
         })
 
         app.get('/', (req, res) => {

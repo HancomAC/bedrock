@@ -1,15 +1,14 @@
-import express, { RequestHandler, RouterOptions } from "express";
+import express, { RouterOptions } from "express";
 import Resp from "../types/response";
-declare type BHandler = (path: string, f: (req: express.Request) => Resp<any>) => any;
-declare type BRouter = express.Router & {
-    _get: RequestHandler;
-    _post: RequestHandler;
-    _delete: RequestHandler;
-    _put: RequestHandler;
-    get: BHandler;
-    post: BHandler;
-    delete: BHandler;
-    put: BHandler;
-};
-export default function (options?: RouterOptions): BRouter;
+declare type Handler = (req: express.Request) => Resp<any>;
+declare type HandlerRegistrator = (path: string, handler: Handler) => any;
+interface RouterConfig {
+    router: express.Router;
+    get: HandlerRegistrator;
+    post: HandlerRegistrator;
+    put: HandlerRegistrator;
+    delete: HandlerRegistrator;
+    use: express.IRouterHandler<any>;
+}
+export default function (cb?: (data: RouterConfig) => any, options?: RouterOptions): any;
 export {};

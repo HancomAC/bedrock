@@ -37,7 +37,8 @@ function default_1({ port, name, cb, config }) {
                 },
                 delete: (path, f) => {
                     app.delete(path, (0, handler_1.default)(f));
-                }
+                },
+                use: app.use
             });
         app.get('/', (req, res) => {
             res.send(`${name} v${config.version}.${config.commitCount} (${config.commitHash})
