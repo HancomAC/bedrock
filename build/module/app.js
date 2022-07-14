@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const express_ws_1 = __importDefault(require("express-ws"));
 const prepare_1 = __importDefault(require("./express/prepare"));
 const handler_1 = __importDefault(require("./express/handler"));
-require("./util/env");
 const config_1 = __importDefault(require("./config"));
 const log_1 = __importDefault(require("./util/log"));
 const router_1 = require("./express/router");

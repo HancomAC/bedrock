@@ -1,7 +1,6 @@
 import express from 'express';
 import ws from 'express-ws';
 import Resp from "./types/response";
-import './util/env';
 declare type App = express.Application;
 declare type Handler = (req: express.Request) => Resp<any>;
 declare type HandlerRegistrator = (path: string, handler: Handler) => any;
