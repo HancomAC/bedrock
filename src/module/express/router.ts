@@ -1,6 +1,7 @@
 import express, {RequestHandler, RouterOptions} from "express";
 import Resp from "../types/response";
 import handler from "./handler";
+import ws from 'express-ws';
 
 type Handler = (req: express.Request) => Resp<any>
 type HandlerRegistrator = (path: string, handler: Handler) => any
@@ -11,7 +12,8 @@ interface RouterConfig {
     post: HandlerRegistrator,
     put: HandlerRegistrator,
     delete: HandlerRegistrator,
-    use: express.IRouterHandler<any>
+    use: express.IRouterHandler<any>,
+    ws: ws.WebsocketRequestHandler
 }
 
 export default async function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router> {
@@ -30,7 +32,8 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
         delete: (path: string, f: (req: express.Request) => Resp<any>) => {
             router.delete(path, handler(f))
         },
-        use: router.use.bind(router)
+        use: router.use.bind(router),
+        ws: router.ws.bind(router)
     })
     return router as express.Router;
 }

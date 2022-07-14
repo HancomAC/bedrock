@@ -35,10 +35,6 @@ export default function ({port, name, cb, config}: {
 
         const app = ws(express()).app;
 
-        app.ws('/', (ws, req) => {
-
-        })
-
         prepare(app);
 
         if (cb) await cb({
