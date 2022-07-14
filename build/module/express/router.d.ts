@@ -9,7 +9,7 @@ interface RouterConfig {
     post: HandlerRegistrator;
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
-    use: express.IRouterHandler<any>;
+    use: express.IRouterHandler<any> & express.IRouterMatcher<any>;
     ws: ws.WebsocketMethod<any>;
 }
 export declare function setWsInstance(wsInstance: ws.Instance): void;

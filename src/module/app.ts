@@ -18,7 +18,7 @@ interface AppConfig {
     post: HandlerRegistrator,
     put: HandlerRegistrator,
     delete: HandlerRegistrator,
-    use: typeof express.application.use,
+    use: express.IRouterHandler<any> & express.IRouterMatcher<any>,
     ws: ws.WebsocketMethod<any>,
 }
 
