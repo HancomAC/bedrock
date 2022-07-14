@@ -41,7 +41,7 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
             router.delete(path, handler(f))
         },
         use: router.use.bind(router),
-        ws: router.ws.bind(router)
+        ws: router.ws?.bind?.(router)
     })
     return router as express.Router;
 }

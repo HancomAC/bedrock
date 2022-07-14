@@ -1,4 +1,4 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = { "version": "1.1.8", "commitHash": "331fea346e52a1401896c5ec30a969f6c3616cc0", "commitCount": 42, "buildDate": "2022-07-14T06:21:11.853Z", "port": 80 };
+exports.default = { "version": "1.1.9", "commitHash": "247e54c37743f3f1a248b957dc87036f659b1ded", "commitCount": 43, "buildDate": "2022-07-14T06:22:16.866Z", "port": 80 };
 //# sourceMappingURL=config.js.map
