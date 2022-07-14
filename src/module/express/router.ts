@@ -3,7 +3,7 @@ import Resp from "../types/response";
 import handler from "./handler";
 import ws from 'express-ws';
 
-type Handler = (req: express.Request) => Resp<any>
+type Handler = (req: express.Request) => Resp<any> | Promise<null>
 type HandlerRegistrator = (path: string, handler: Handler) => any
 
 interface RouterConfig {
