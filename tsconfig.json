@@ -7,7 +7,7 @@
     "outDir": "./build/",
     "typeRoots": [
       "./node_modules/@types",
-      "./src/types/express.d.ts"
+      "./src/module/util/express.d.ts"
     ],
     "baseUrl": "./src/module",
     "declaration": true,

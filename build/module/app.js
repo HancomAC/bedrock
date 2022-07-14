@@ -10,6 +10,7 @@ const handler_1 = __importDefault(require("./express/handler"));
 const config_1 = __importDefault(require("./config"));
 const log_1 = __importDefault(require("./util/log"));
 const router_1 = require("./express/router");
+const jwt_1 = __importDefault(require("./util/jwt"));
 function default_1({ port, name, cb, config }) {
     return new Promise(async (resolve) => {
         if (!name)
@@ -25,6 +26,7 @@ function default_1({ port, name, cb, config }) {
         const instance = (0, express_ws_1.default)((0, express_1.default)()), app = instance.app;
         (0, router_1.setWsInstance)(instance);
         (0, prepare_1.default)(app);
+        app.use(jwt_1.default);
         if (cb)
             await cb({
                 app,
