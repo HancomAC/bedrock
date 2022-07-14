@@ -12,5 +12,6 @@ interface RouterConfig {
     use: express.IRouterHandler<any>;
     ws: ws.WebsocketMethod<any>;
 }
+export declare function setWsInstance(wsInstance: ws.Instance): void;
 export default function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router>;
 export {};
