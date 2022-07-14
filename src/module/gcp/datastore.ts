@@ -1,7 +1,7 @@
 import {Datastore} from "@google-cloud/datastore";
-import {projectId} from './config'
+import {credentials, projectId} from './config'
 
-const client = new Datastore({projectId});
+const client = new Datastore({projectId, credentials});
 export type DSKey = string
 
 export default client
