@@ -4,7 +4,9 @@ const log_1 = require("../util/log");
 function default_1(f) {
     const middleware = async (req, res) => {
         try {
-            const data = await f(req);
+            const data = await f(req, res);
+            if (!data)
+                return;
             if (data.error)
                 res.status(data.code || 500);
             await res.json(data);
