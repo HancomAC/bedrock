@@ -19,7 +19,7 @@ interface AppConfig {
     put: HandlerRegistrator,
     delete: HandlerRegistrator,
     use: typeof express.application.use,
-    ws: ws.WebsocketRequestHandler,
+    ws: ws.WebsocketMethod<any>,
 }
 
 export default function ({port, name, cb, config}: {
@@ -52,7 +52,7 @@ export default function ({port, name, cb, config}: {
             delete: (path: string, f: (req: express.Request) => Resp<any>) => {
                 app.delete(path, handler(f))
             },
-            ws: app.ws.bind(app),
+            ws: app.ws.bind(app) as typeof app.ws,
             use: app.use.bind(app)
         })
 
