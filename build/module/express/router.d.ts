@@ -1,7 +1,7 @@
 import express, { RouterOptions } from "express";
 import Resp from "../types/response";
 import ws from 'express-ws';
-declare type Handler = (req: express.Request) => Resp<any>;
+declare type Handler = (req: express.Request) => Resp<any> | Promise<null>;
 declare type HandlerRegistrator = (path: string, handler: Handler) => any;
 interface RouterConfig {
     router: express.Router;
