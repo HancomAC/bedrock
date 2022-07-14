@@ -6,6 +6,7 @@ import Resp from "./types/response";
 import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
+import auth from './util/jwt'
 
 type App = express.Application
 type Handler = (req: express.Request, res?: express.Response) => (Resp<any> | Promise<null>)
@@ -37,6 +38,7 @@ export default function ({port, name, cb, config}: {
 
         setWsInstance(instance);
         prepare(app);
+        app.use(auth);
 
         if (cb) await cb({
             app,
