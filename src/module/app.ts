@@ -1,4 +1,5 @@
 import express from 'express';
+import ws from 'express-ws';
 import prepare from "./express/prepare";
 import handler from "./express/handler";
 import Resp from "./types/response";
@@ -17,7 +18,8 @@ interface AppConfig {
     post: HandlerRegistrator,
     put: HandlerRegistrator,
     delete: HandlerRegistrator,
-    use: typeof express.application.use
+    use: typeof express.application.use,
+    ws: ws.WebsocketRequestHandler,
 }
 
 export default function ({port, name, cb, config}: {
@@ -31,7 +33,11 @@ export default function ({port, name, cb, config}: {
         }
         if (!config) config = {} as any
 
-        const app: express.Application = express();
+        const app = ws(express()).app;
+
+        app.ws('/', (ws, req) => {
+
+        })
 
         prepare(app);
 
@@ -50,6 +56,7 @@ export default function ({port, name, cb, config}: {
             delete: (path: string, f: (req: express.Request) => Resp<any>) => {
                 app.delete(path, handler(f))
             },
+            ws: app.ws.bind(app),
             use: app.use.bind(app)
         })
 
