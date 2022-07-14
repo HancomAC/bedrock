@@ -24,7 +24,7 @@ export function setWsInstance(wsInstance: ws.Instance) {
 
 export default async function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router> {
     const router = express.Router(options)
-    _wsInstance.applyTo(router)
+    _wsInstance?.applyTo?.(router)
 
     if (cb) await cb({
         router,
