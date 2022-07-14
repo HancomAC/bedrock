@@ -26,19 +26,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.algolia = exports.gcp = exports.router = exports.log = void 0;
+exports.auth = exports.algolia = exports.gcp = exports.router = exports.log = void 0;
 require("./util/env");
 const app_1 = __importDefault(require("./app"));
 const log_1 = __importDefault(require("./util/log"));
 const router_1 = __importDefault(require("./express/router"));
 const gcp_1 = __importDefault(require("./gcp"));
 const algolia_1 = __importStar(require("./util/algolia"));
+const jwt_1 = require("./util/jwt");
 exports.log = log_1.default;
 exports.router = router_1.default;
 exports.gcp = gcp_1.default;
 exports.algolia = {
     client: algolia_1.default,
     ProblemIndex: algolia_1.ProblemIndex
+};
+exports.auth = {
+    sign: jwt_1.sign,
+    verify: jwt_1.verify,
+    save: jwt_1.save
 };
 exports.default = app_1.default;
 //# sourceMappingURL=index.js.map
