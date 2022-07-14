@@ -1,3 +1,4 @@
+import './util/env';
 import App from "./app";
 import _log from "./util/log";
 import _router from "./express/router";
@@ -12,5 +13,9 @@ export declare const gcp: {
     datastore: {
         client: import("@google-cloud/datastore").Datastore;
     };
+};
+export declare const algolia: {
+    client: import("algoliasearch").SearchClient;
+    ProblemIndex: import("algoliasearch").SearchIndex;
 };
 export default App;

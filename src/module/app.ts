@@ -3,7 +3,6 @@ import ws from 'express-ws';
 import prepare from "./express/prepare";
 import handler from "./express/handler";
 import Resp from "./types/response";
-import './util/env'
 import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";

@@ -1,0 +1,1 @@
+{"version":3,"file":"algolia.js","sourceRoot":"","sources":["../../../src/module/util/algolia.ts"],"names":[],"mappings":";;;;;;AAAA,kEAA0C;AAE1C,MAAM,MAAM,GAAG,IAAA,uBAAa,EAAC,OAAO,CAAC,GAAG,CAAC,cAAc,EAAE,OAAO,CAAC,GAAG,CAAC,eAAe,CAAC,CAAC;AACzE,QAAA,YAAY,GAAG,MAAM,CAAC,SAAS,CAAC,SAAS,CAAC,CAAC;AAExD,kBAAe,MAAM,CAAC"}
