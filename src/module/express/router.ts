@@ -16,8 +16,16 @@ interface RouterConfig {
     ws: ws.WebsocketMethod<any>,
 }
 
+let _wsInstance: ws.Instance;
+
+export function setWsInstance(wsInstance: ws.Instance) {
+    _wsInstance = wsInstance;
+}
+
 export default async function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router> {
     const router = express.Router(options)
+    _wsInstance.applyTo(router)
+
     if (cb) await cb({
         router,
         get: (path: string, f: (req: express.Request) => Resp<any>) => {

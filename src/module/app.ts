@@ -6,6 +6,7 @@ import Resp from "./types/response";
 import './util/env'
 import _bedrock from './config'
 import log from "./util/log";
+import {setWsInstance} from "./express/router";
 
 type App = express.Application
 type Handler = (req: express.Request) => Resp<any>
@@ -33,8 +34,9 @@ export default function ({port, name, cb, config}: {
         }
         if (!config) config = {} as any
 
-        const app = ws(express()).app;
+        const instance = ws(express()), app = instance.app;
 
+        setWsInstance(instance);
         prepare(app);
 
         if (cb) await cb({
@@ -52,7 +54,7 @@ export default function ({port, name, cb, config}: {
             delete: (path: string, f: (req: express.Request) => Resp<any>) => {
                 app.delete(path, handler(f))
             },
-            ws: app.ws.bind(app) as typeof app.ws,
+            ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)
         })
 

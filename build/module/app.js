@@ -10,6 +10,7 @@ const handler_1 = __importDefault(require("./express/handler"));
 require("./util/env");
 const config_1 = __importDefault(require("./config"));
 const log_1 = __importDefault(require("./util/log"));
+const router_1 = require("./express/router");
 function default_1({ port, name, cb, config }) {
     return new Promise(async (resolve) => {
         if (!name)
@@ -22,7 +23,8 @@ function default_1({ port, name, cb, config }) {
         }
         if (!config)
             config = {};
-        const app = (0, express_ws_1.default)((0, express_1.default)()).app;
+        const instance = (0, express_ws_1.default)((0, express_1.default)()), app = instance.app;
+        (0, router_1.setWsInstance)(instance);
         (0, prepare_1.default)(app);
         if (cb)
             await cb({
@@ -40,7 +42,7 @@ function default_1({ port, name, cb, config }) {
                 delete: (path, f) => {
                     app.delete(path, (0, handler_1.default)(f));
                 },
-                ws: app.ws.bind(app),
+                ws: app.ws?.bind?.(app),
                 use: app.use.bind(app)
             });
         app.get('/', (req, res) => {
