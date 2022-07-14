@@ -1,4 +1,5 @@
 import express from 'express';
+import ws from 'express-ws';
 import Resp from "./types/response";
 import './util/env';
 declare type App = express.Application;
@@ -12,6 +13,7 @@ interface AppConfig {
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
     use: typeof express.application.use;
+    ws: ws.WebsocketRequestHandler;
 }
 export default function ({ port, name, cb, config }: {
     port?: number;
