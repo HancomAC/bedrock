@@ -2,7 +2,7 @@ import express from 'express';
 import ws from 'express-ws';
 import Resp from "./types/response";
 declare type App = express.Application;
-declare type Handler = (req: express.Request) => (Resp<any> | Promise<null>);
+declare type Handler = (req: express.Request, res?: express.Response) => (Resp<any> | Promise<null>);
 declare type HandlerRegistrator = (path: string, handler: Handler) => any;
 interface AppConfig {
     app: App;
