@@ -13,7 +13,7 @@ function setWsInstance(wsInstance) {
 exports.setWsInstance = setWsInstance;
 async function default_1(cb, options) {
     const router = express_1.default.Router(options);
-    _wsInstance.applyTo(router);
+    _wsInstance?.applyTo?.(router);
     if (cb)
         await cb({
             router,
