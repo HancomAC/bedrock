@@ -13,7 +13,7 @@ interface AppConfig {
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
     use: typeof express.application.use;
-    ws: ws.WebsocketRequestHandler;
+    ws: ws.WebsocketMethod<any>;
 }
 export default function ({ port, name, cb, config }: {
     port?: number;

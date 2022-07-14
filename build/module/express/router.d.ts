@@ -10,7 +10,7 @@ interface RouterConfig {
     put: HandlerRegistrator;
     delete: HandlerRegistrator;
     use: express.IRouterHandler<any>;
-    ws: ws.WebsocketRequestHandler;
+    ws: ws.WebsocketMethod<any>;
 }
 export default function (cb?: (data: RouterConfig) => any, options?: RouterOptions): Promise<express.Router>;
 export {};
