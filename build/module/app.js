@@ -23,8 +23,6 @@ function default_1({ port, name, cb, config }) {
         if (!config)
             config = {};
         const app = (0, express_ws_1.default)((0, express_1.default)()).app;
-        app.ws('/', (ws, req) => {
-        });
         (0, prepare_1.default)(app);
         if (cb)
             await cb({
