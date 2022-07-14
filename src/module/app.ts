@@ -8,7 +8,7 @@ import log from "./util/log";
 import {setWsInstance} from "./express/router";
 
 type App = express.Application
-type Handler = (req: express.Request) => Resp<any> | Promise<null>
+type Handler = (req: express.Request) => (Resp<any> | Promise<null>)
 type HandlerRegistrator = (path: string, handler: Handler) => any
 
 interface AppConfig {
