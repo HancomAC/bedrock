@@ -13,6 +13,7 @@ export const algolia = {
     client: _algolia,
     ProblemIndex
 }
-export const auth = _auth
+
+export const auth = _auth;
 
 export default App;

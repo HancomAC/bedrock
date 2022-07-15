@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.auth = void 0;
+exports.auth = exports.save = exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secretKey = 'secretKey';
 function sign(data, expire) {
@@ -11,6 +11,7 @@ function sign(data, expire) {
         ...(expire ? { expiresIn: expire } : {})
     });
 }
+exports.sign = sign;
 function verify(token) {
     try {
         return jsonwebtoken_1.default.verify(token, secretKey);
@@ -19,6 +20,7 @@ function verify(token) {
         return null;
     }
 }
+exports.verify = verify;
 function save(res, data, expire) {
     res.cookie('auth', sign(data, expire), {
         httpOnly: true,
@@ -26,6 +28,7 @@ function save(res, data, expire) {
         sameSite: 'strict'
     });
 }
+exports.save = save;
 function default_1(req, res, next) {
     req.auth = verify(req.cookies?.auth);
     next();

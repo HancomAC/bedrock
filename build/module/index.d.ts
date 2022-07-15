@@ -1,4 +1,3 @@
-/// <reference types="express" />
 import './util/env';
 import App from "./app";
 import _log from "./util/log";
@@ -20,9 +19,9 @@ export declare const algolia: {
     ProblemIndex: import("algoliasearch").SearchIndex;
 };
 export declare const auth: {
-    (cb: import("./util/router").Handler, permission: Object): (req: any, res: any) => Promise<import("./types/response").ResponseSuccess<any> | import("./types/response").ResponseError<any>>;
-    sign: (data: any, expire: any) => any;
-    verify: (token: any) => any;
-    save: (res: import("express").Response<any, Record<string, any>>, data: any, expire?: number) => void;
+    (cb: import("./util/router").Handler, permission?: Object): (req: any, res: any) => Promise<import("./types/response").ResponseSuccess<any> | import("./types/response").ResponseError<any>>;
+    sign: typeof import("./util/jwt").sign;
+    verify: typeof import("./util/jwt").verify;
+    save: typeof import("./util/jwt").save;
 };
 export default App;
