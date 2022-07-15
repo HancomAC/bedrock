@@ -1,17 +1,16 @@
 import jwt from 'jsonwebtoken';
 import express from "express";
 import {Handler} from "./router";
-import handler from "../express/handler";
 
 const secretKey = 'secretKey';
 
-export function sign(data, expire) {
+function sign(data, expire) {
     return jwt.sign(data, secretKey, {
         ...(expire ? {expiresIn: expire} : {})
     });
 }
 
-export function verify(token) {
+function verify(token) {
     try {
         return jwt.verify(token, secretKey);
     } catch (e) {
@@ -19,7 +18,7 @@ export function verify(token) {
     }
 }
 
-export function save(res: express.Response, data: any, expire?: number) {
+function save(res: express.Response, data: any, expire?: number) {
     res.cookie('auth', sign(data, expire), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -32,7 +31,7 @@ export default function (req: express.Request, res: express.Response, next: expr
     next();
 }
 
-export function auth(cb: Handler, permission: Object) {
+export const auth = (cb: Handler, permission: Object) => {
     return async (req, res) => {
         if (!req.auth) return {error: 'Authorization required', code: 401};
         if (permission) {
@@ -43,4 +42,8 @@ export function auth(cb: Handler, permission: Object) {
         return cb(req, res);
     }
 }
+
+auth.sign = sign;
+auth.verify = verify;
+auth.save = save;
 

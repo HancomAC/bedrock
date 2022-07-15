@@ -41,10 +41,6 @@ exports.algolia = {
     client: algolia_1.default,
     ProblemIndex: algolia_1.ProblemIndex
 };
-exports.auth = {
-    sign: jwt_1.sign,
-    verify: jwt_1.verify,
-    save: jwt_1.save
-};
+exports.auth = jwt_1.auth;
 exports.default = app_1.default;
 //# sourceMappingURL=index.js.map
