@@ -2,9 +2,7 @@ import express, {RequestHandler, RouterOptions} from "express";
 import Resp from "../types/response";
 import handler from "./handler";
 import ws from 'express-ws';
-
-type Handler = (req: express.Request, res?: express.Response) => (Resp<any> | Promise<null>)
-type HandlerRegistrator = (path: string, handler: Handler) => any
+import {Handler, HandlerRegistrator} from "../util/router";
 
 interface RouterConfig {
     router: express.Router,
@@ -28,16 +26,16 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
 
     if (cb) await cb({
         router,
-        get: (path: string, f: (req: express.Request) => Resp<any>) => {
+        get: (path: string, f: Handler) => {
             router.get(path, handler(f))
         },
-        post: (path: string, f: (req: express.Request) => Resp<any>) => {
+        post: (path: string, f: Handler) => {
             router.post(path, handler(f))
         },
-        put: (path: string, f: (req: express.Request) => Resp<any>) => {
+        put: (path: string, f: Handler) => {
             router.put(path, handler(f))
         },
-        delete: (path: string, f: (req: express.Request) => Resp<any>) => {
+        delete: (path: string, f: Handler) => {
             router.delete(path, handler(f))
         },
         use: router.use.bind(router),

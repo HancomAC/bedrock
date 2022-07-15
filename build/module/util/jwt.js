@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.save = exports.verify = exports.sign = void 0;
+exports.auth = exports.save = exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secretKey = 'secretKey';
 function sign(data, expire) {
@@ -34,4 +34,18 @@ function default_1(req, res, next) {
     next();
 }
 exports.default = default_1;
+function auth(cb, permission) {
+    return async (req, res) => {
+        if (!req.auth)
+            return { error: 'Authorization required', code: 401 };
+        if (permission) {
+            for (let key in permission) {
+                if (req.auth.permission[key] !== permission[key])
+                    return { error: 'Permission denied', code: 403 };
+            }
+        }
+        return cb(req, res);
+    };
+}
+exports.auth = auth;
 //# sourceMappingURL=jwt.js.map
