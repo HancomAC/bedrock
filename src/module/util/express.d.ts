@@ -2,7 +2,7 @@ declare global {
     namespace Express {
         interface Request {
             auth?: any;
-            ip: string;
+            req_ip: string;
         }
     }
 }
