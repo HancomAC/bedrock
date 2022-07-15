@@ -28,6 +28,7 @@ export function save(res: express.Response, data: any, expire?: number) {
 
 export default function (req: express.Request, res: express.Response, next: express.NextFunction) {
     req.auth = verify(req.cookies?.auth);
+    req.ip = req.headers['x-forwarded-for'] as any || req.socket.remoteAddress;
     next();
 }
 

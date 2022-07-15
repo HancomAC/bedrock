@@ -31,6 +31,7 @@ function save(res, data, expire) {
 exports.save = save;
 function default_1(req, res, next) {
     req.auth = verify(req.cookies?.auth);
+    req.ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
     next();
 }
 exports.default = default_1;
