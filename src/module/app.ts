@@ -7,13 +7,11 @@ import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
 import auth from './util/jwt'
+import {Handler, HandlerRegistrator} from "./util/router";
 
-type App = express.Application
-type Handler = (req: express.Request, res?: express.Response) => (Resp<any> | Promise<null>)
-type HandlerRegistrator = (path: string, handler: Handler) => any
 
 interface AppConfig {
-    app: App,
+    app: express.Application,
     config: any,
     get: HandlerRegistrator,
     post: HandlerRegistrator,
@@ -43,16 +41,16 @@ export default function ({port, name, cb, config}: {
         if (cb) await cb({
             app,
             config,
-            get: (path: string, f: (req: express.Request) => Resp<any>) => {
+            get: (path: string, f: Handler) => {
                 app.get(path, handler(f))
             },
-            post: (path: string, f: (req: express.Request) => Resp<any>) => {
+            post: (path: string, f: Handler) => {
                 app.post(path, handler(f))
             },
-            put: (path: string, f: (req: express.Request) => Resp<any>) => {
+            put: (path: string, f: Handler) => {
                 app.put(path, handler(f))
             },
-            delete: (path: string, f: (req: express.Request) => Resp<any>) => {
+            delete: (path: string, f: Handler) => {
                 app.delete(path, handler(f))
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,

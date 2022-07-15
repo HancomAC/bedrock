@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
 import express from "express";
+import {Handler} from "./router";
+import handler from "../express/handler";
 
 const secretKey = 'secretKey';
 
@@ -29,3 +31,16 @@ export default function (req: express.Request, res: express.Response, next: expr
     req.auth = verify(req.cookies?.auth);
     next();
 }
+
+export function auth(cb: Handler, permission: Object) {
+    return async (req, res) => {
+        if (!req.auth) return {error: 'Authorization required', code: 401};
+        if (permission) {
+            for (let key in permission) {
+                if (req.auth.permission[key] !== permission[key]) return {error: 'Permission denied', code: 403};
+            }
+        }
+        return cb(req, res);
+    }
+}
+
