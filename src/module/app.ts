@@ -7,7 +7,7 @@ import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
 import auth from './util/jwt'
-import {Handler, HandlerRegistrator} from "./util/router";
+import {Handler, HandlerRegistrator} from "./types/router";
 
 
 interface AppConfig {

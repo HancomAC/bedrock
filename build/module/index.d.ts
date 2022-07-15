@@ -19,7 +19,7 @@ export declare const algolia: {
     ProblemIndex: import("algoliasearch").SearchIndex;
 };
 export declare const auth: {
-    (cb: import("./util/router").Handler, permission?: Object): (req: any, res: any) => Promise<import("./types/response").ResponseSuccess<any> | import("./types/response").ResponseError<any>>;
+    (cb: import("./types/router").Handler, permission?: Object): (req: any, res: any) => Promise<import("./types/response").ResponseSuccess<any> | import("./types/response").ResponseError<any>>;
     sign: typeof import("./util/jwt").sign;
     verify: typeof import("./util/jwt").verify;
     save: typeof import("./util/jwt").save;

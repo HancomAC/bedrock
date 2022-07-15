@@ -1,5 +1,5 @@
 import express from "express";
-import { Handler } from "./router";
+import { Handler } from "../types/router";
 export declare function sign(data: any, expire: any): any;
 export declare function verify(token: any): any;
 export declare function save(res: express.Response, data: any, expire?: number): void;

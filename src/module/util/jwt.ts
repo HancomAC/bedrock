@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import express from "express";
-import {Handler} from "./router";
+import {Handler} from "../types/router";
 
 const secretKey = 'secretKey';
 
