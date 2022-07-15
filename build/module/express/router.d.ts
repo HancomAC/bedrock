@@ -1,6 +1,6 @@
 import express, { RouterOptions } from "express";
 import ws from 'express-ws';
-import { HandlerRegistrator } from "../util/router";
+import { HandlerRegistrator } from "../types/router";
 interface RouterConfig {
     router: express.Router;
     get: HandlerRegistrator;

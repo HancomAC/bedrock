@@ -2,7 +2,7 @@ import express, {RequestHandler, RouterOptions} from "express";
 import Resp from "../types/response";
 import handler from "./handler";
 import ws from 'express-ws';
-import {Handler, HandlerRegistrator} from "../util/router";
+import {Handler, HandlerRegistrator} from "../types/router";
 import {auth} from "../util/jwt";
 
 interface RouterConfig {
