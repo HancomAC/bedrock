@@ -6,32 +6,55 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.setWsInstance = void 0;
 const express_1 = __importDefault(require("express"));
 const handler_1 = __importDefault(require("./handler"));
+const jwt_1 = require("../util/jwt");
 let _wsInstance;
 function setWsInstance(wsInstance) {
     _wsInstance = wsInstance;
 }
 exports.setWsInstance = setWsInstance;
-async function default_1(cb, options) {
+async function default_1(cb, options, _auth) {
     const router = express_1.default.Router(options);
     _wsInstance?.applyTo?.(router);
-    if (cb)
-        await cb({
-            router,
-            get: (path, f) => {
-                router.get(path, (0, handler_1.default)(f));
-            },
-            post: (path, f) => {
-                router.post(path, (0, handler_1.default)(f));
-            },
-            put: (path, f) => {
-                router.put(path, (0, handler_1.default)(f));
-            },
-            delete: (path, f) => {
-                router.delete(path, (0, handler_1.default)(f));
-            },
-            use: router.use.bind(router),
-            ws: router.ws?.bind?.(router)
-        });
+    if (cb) {
+        if (!_auth)
+            await cb({
+                router,
+                get: (path, f) => {
+                    router.get(path, (0, handler_1.default)(f));
+                },
+                post: (path, f) => {
+                    router.post(path, (0, handler_1.default)(f));
+                },
+                put: (path, f) => {
+                    router.put(path, (0, handler_1.default)(f));
+                },
+                delete: (path, f) => {
+                    router.delete(path, (0, handler_1.default)(f));
+                },
+                use: router.use.bind(router),
+                ws: router.ws?.bind?.(router)
+            });
+        else
+            await cb({
+                router,
+                get: (path, f) => {
+                    router.get(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
+                },
+                post: (path, f) => {
+                    router.post(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
+                },
+                put: (path, f) => {
+                    router.put(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
+                },
+                delete: (path, f) => {
+                    router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
+                },
+                use: (...args) => {
+                    router.use(args[0], (0, handler_1.default)((0, jwt_1.auth)(args[1], _auth)), ...args.slice(1));
+                },
+                ws: router.ws?.bind?.(router)
+            });
+    }
     return router;
 }
 exports.default = default_1;
