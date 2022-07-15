@@ -4,13 +4,13 @@ import {Handler} from "./router";
 
 const secretKey = 'secretKey';
 
-function sign(data, expire) {
+export function sign(data, expire) {
     return jwt.sign(data, secretKey, {
         ...(expire ? {expiresIn: expire} : {})
     });
 }
 
-function verify(token) {
+export function verify(token) {
     try {
         return jwt.verify(token, secretKey);
     } catch (e) {
@@ -18,7 +18,7 @@ function verify(token) {
     }
 }
 
-function save(res: express.Response, data: any, expire?: number) {
+export function save(res: express.Response, data: any, expire?: number) {
     res.cookie('auth', sign(data, expire), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -31,7 +31,7 @@ export default function (req: express.Request, res: express.Response, next: expr
     next();
 }
 
-export const auth = (cb: Handler, permission: Object) => {
+export const auth = (cb: Handler, permission?: Object) => {
     return async (req, res) => {
         if (!req.auth) return {error: 'Authorization required', code: 401};
         if (permission) {
@@ -46,4 +46,3 @@ export const auth = (cb: Handler, permission: Object) => {
 auth.sign = sign;
 auth.verify = verify;
 auth.save = save;
-
