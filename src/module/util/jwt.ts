@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import express from "express";
 import {Handler} from "../types/router";
 
-const secretKey = 'secretKey';
+const secretKey = process.env.jwt || 'secretKey';
 
 export function sign(data, expire) {
     return jwt.sign(data, secretKey, {
@@ -18,11 +18,12 @@ export function verify(token) {
     }
 }
 
-export function save(res: express.Response, data: any, expire?: number) {
+export function save(res: express.Response, data: any, expire?: number, domain?: string) {
     res.cookie('auth', sign(data, expire), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+        sameSite: 'strict',
+        domain
     });
 }
 
