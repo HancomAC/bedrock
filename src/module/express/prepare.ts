@@ -17,6 +17,9 @@ export default function (app: express.Application) {
         }
     }))
     app.use(express.json());
+    app.use((error, req, res, next) => {
+        res.status(500).send({error: error.message, code: 500});
+    });
     app.use(express.urlencoded({extended: true}));
     app.use(cookieParser());
     app.use(compression());

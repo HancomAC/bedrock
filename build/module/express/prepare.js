@@ -21,6 +21,9 @@ function default_1(app) {
         }
     }));
     app.use(express_1.default.json());
+    app.use((error, req, res, next) => {
+        res.status(500).send({ error: error.message, code: 500 });
+    });
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
     app.use((0, compression_1.default)());
