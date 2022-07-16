@@ -1,15 +1,8 @@
 import express from 'express';
-import ws from 'express-ws';
-import { HandlerRegistrator } from "./types/router";
-interface AppConfig {
+import { RouteCallback } from "./types/router";
+interface AppConfig extends RouteCallback {
     app: express.Application;
     config: any;
-    get: HandlerRegistrator;
-    post: HandlerRegistrator;
-    put: HandlerRegistrator;
-    delete: HandlerRegistrator;
-    use: express.IRouterHandler<any> & express.IRouterMatcher<any>;
-    ws: ws.WebsocketMethod<any>;
 }
 export default function ({ port, name, cb, config }: {
     port?: number;
