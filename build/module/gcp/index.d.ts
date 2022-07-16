@@ -7,6 +7,9 @@ declare const gcp: {
     datastore: {
         client: import("@google-cloud/datastore").Datastore;
         key: any;
+        query: any;
+        save: any;
+        get: any;
     };
     pubsub: {
         client: import("@google-cloud/pubsub").PubSub;
@@ -27,6 +30,9 @@ export declare const storage: {
 export declare const datastore: {
     client: import("@google-cloud/datastore").Datastore;
     key: any;
+    query: any;
+    save: any;
+    get: any;
 };
 export declare const pubsub: {
     client: import("@google-cloud/pubsub").PubSub;

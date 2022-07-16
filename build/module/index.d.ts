@@ -13,6 +13,9 @@ export declare const gcp: {
     datastore: {
         client: import("@google-cloud/datastore").Datastore;
         key: any;
+        query: any;
+        save: any;
+        get: any;
     };
     pubsub: {
         client: import("@google-cloud/pubsub").PubSub;
