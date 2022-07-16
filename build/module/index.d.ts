@@ -12,6 +12,16 @@ export declare const gcp: {
     };
     datastore: {
         client: import("@google-cloud/datastore").Datastore;
+        key: any;
+    };
+    pubsub: {
+        client: import("@google-cloud/pubsub").PubSub;
+        live: import("@google-cloud/pubsub").Topic;
+        dool_r05: import("@google-cloud/pubsub").Topic;
+        dool_r1: import("@google-cloud/pubsub").Topic;
+        dool_r2: import("@google-cloud/pubsub").Topic;
+        dool_r4: import("@google-cloud/pubsub").Topic;
+        dool_r8: import("@google-cloud/pubsub").Topic;
     };
 };
 export declare const algolia: {

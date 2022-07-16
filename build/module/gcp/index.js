@@ -1,42 +1,19 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const storage_1 = __importStar(require("./storage"));
+exports.pubsub = exports.datastore = exports.storage = void 0;
+const storage_1 = __importDefault(require("./storage"));
 const datastore_1 = __importDefault(require("./datastore"));
+const pubsub_1 = __importDefault(require("./pubsub"));
 const gcp = {
-    storage: {
-        client: storage_1.default,
-        SubmissionBucket: storage_1.SubmissionBucket,
-        JudgeBucket: storage_1.JudgeBucket
-    },
-    datastore: {
-        client: datastore_1.default
-    }
+    storage: storage_1.default,
+    datastore: datastore_1.default,
+    pubsub: pubsub_1.default,
 };
 exports.default = gcp;
+exports.storage = storage_1.default;
+exports.datastore = datastore_1.default;
+exports.pubsub = pubsub_1.default;
 //# sourceMappingURL=index.js.map

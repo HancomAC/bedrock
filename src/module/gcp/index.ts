@@ -1,16 +1,14 @@
-import Storage, {SubmissionBucket, JudgeBucket} from './storage'
-import Datastore from "./datastore";
-import exp from "constants";
+import _storage from './storage'
+import _datastore from "./datastore";
+import _pubsub from "./pubsub";
 
 const gcp = {
-    storage: {
-        client: Storage,
-        SubmissionBucket,
-        JudgeBucket
-    },
-    datastore: {
-        client: Datastore
-    }
+    storage: _storage,
+    datastore: _datastore,
+    pubsub: _pubsub,
 }
 
 export default gcp
+export const storage = _storage
+export const datastore = _datastore
+export const pubsub = _pubsub

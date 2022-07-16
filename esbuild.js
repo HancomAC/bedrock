@@ -34,9 +34,21 @@ const typePlugin = {
 
 let builded;
 
+function copyFolderSync(from, to) {
+    fs.mkdirSync(to);
+    fs.readdirSync(from).forEach(element => {
+        if (fs.lstatSync(path.join(from, element)).isFile()) {
+            fs.copyFileSync(path.join(from, element), path.join(to, element));
+        } else {
+            copyFolderSync(path.join(from, element), path.join(to, element));
+        }
+    });
+}
 
 fs.writeFileSync('src/module/config.ts', `export default ${config}`)
 childProcess.execSync('tsc')
+fs.rmdirSync('gcp', {recursive: true})
+copyFolderSync('build/module/gcp', 'gcp')
 
 require('esbuild').build({
     entryPoints: ['./src/runner.ts'],
