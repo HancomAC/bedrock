@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.auth = exports.save = exports.verify = exports.sign = void 0;
+exports.auth = exports.revoke = exports.save = exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const secretKey = process.env.jwt || 'secretKey';
 function sign(data, expire) {
@@ -30,6 +30,10 @@ function save(res, data, expire, domain) {
     });
 }
 exports.save = save;
+function revoke(res) {
+    res.clearCookie('auth');
+}
+exports.revoke = revoke;
 function default_1(req, res, next) {
     req.auth = verify(req.cookies?.auth);
     req.req_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
@@ -53,4 +57,5 @@ exports.auth = auth;
 exports.auth.sign = sign;
 exports.auth.verify = verify;
 exports.auth.save = save;
+exports.auth.revoke = revoke;
 //# sourceMappingURL=jwt.js.map
