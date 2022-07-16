@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = exports.save = exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const secretKey = 'secretKey';
+const secretKey = process.env.jwt || 'secretKey';
 function sign(data, expire) {
     return jsonwebtoken_1.default.sign(data, secretKey, {
         ...(expire ? { expiresIn: expire } : {})
@@ -21,11 +21,12 @@ function verify(token) {
     }
 }
 exports.verify = verify;
-function save(res, data, expire) {
+function save(res, data, expire, domain) {
     res.cookie('auth', sign(data, expire), {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
+        sameSite: 'strict',
+        domain
     });
 }
 exports.save = save;
