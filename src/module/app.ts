@@ -5,19 +5,12 @@ import handler from "./express/handler";
 import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
-import auth from './util/jwt'
-import {Handler, HandlerRegistrator} from "./types/router";
+import authRouter, {auth} from './util/jwt'
+import {Handler, RouteCallback} from "./types/router";
 
-
-interface AppConfig {
-    app: express.Application,
-    config: any,
-    get: HandlerRegistrator,
-    post: HandlerRegistrator,
-    put: HandlerRegistrator,
-    delete: HandlerRegistrator,
-    use: express.IRouterHandler<any> & express.IRouterMatcher<any>,
-    ws: ws.WebsocketMethod<any>,
+interface AppConfig extends RouteCallback {
+    app: express.Application
+    config: any
 }
 
 export default function ({port, name, cb, config}: {
@@ -35,22 +28,30 @@ export default function ({port, name, cb, config}: {
 
         setWsInstance(instance);
         prepare(app);
-        app.use(auth);
+        app.use(authRouter);
 
         if (cb) await cb({
             app,
             config,
-            get: (path: string, f: Handler) => {
-                app.get(path, handler(f))
+            get: (path: string, f: Handler, _auth?: any) => {
+                if (_auth) app.get(path, handler(auth(f, _auth)));
+                else app.get(path, handler(f));
             },
-            post: (path: string, f: Handler) => {
-                app.post(path, handler(f))
+            post: (path: string, f: Handler, _auth?: any) => {
+                if (_auth) app.post(path, handler(auth(f, _auth)));
+                else app.post(path, handler(f));
             },
-            put: (path: string, f: Handler) => {
-                app.put(path, handler(f))
+            put: (path: string, f: Handler, _auth?: any) => {
+                if (_auth) app.put(path, handler(auth(f, _auth)));
+                else app.put(path, handler(f));
             },
-            delete: (path: string, f: Handler) => {
-                app.delete(path, handler(f))
+            delete: (path: string, f: Handler, _auth?: any) => {
+                if (_auth) app.delete(path, handler(auth(f, _auth)));
+                else app.delete(path, handler(f));
+            },
+            patch: (path: string, f: Handler, _auth?: any) => {
+                if (_auth) app.patch(path, handler(auth(f, _auth)));
+                else app.patch(path, handler(f));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)
