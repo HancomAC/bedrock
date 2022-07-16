@@ -27,6 +27,10 @@ export function save(res: express.Response, data: any, expire?: number, domain?:
     });
 }
 
+export function revoke(res: express.Response) {
+    res.clearCookie('auth');
+}
+
 export default function (req: express.Request, res: express.Response, next: express.NextFunction) {
     req.auth = verify(req.cookies?.auth);
     req.req_ip = req.headers['x-forwarded-for'] as any as string || req.socket.remoteAddress;
@@ -48,3 +52,4 @@ export const auth = (cb: Handler, permission?: Object) => {
 auth.sign = sign;
 auth.verify = verify;
 auth.save = save;
+auth.revoke = revoke;

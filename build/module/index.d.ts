@@ -23,5 +23,6 @@ export declare const auth: {
     sign: typeof import("./util/jwt").sign;
     verify: typeof import("./util/jwt").verify;
     save: typeof import("./util/jwt").save;
+    revoke: typeof import("./util/jwt").revoke;
 };
 export default App;
