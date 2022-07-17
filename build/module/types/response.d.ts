@@ -1,4 +1,5 @@
-declare type Resp<T> = Promise<ResponseSuccess<T> | ResponseError<T>>;
+declare type Response<T> = Promise<ResponseSuccess<T> | ResponseError<T>>;
+export declare type ResponseInternal<T> = Promise<ResponseSuccess<T> | ResponseError<T> | boolean>;
 export declare type ResponseSuccess<T> = {
     data: T;
 };
@@ -7,4 +8,4 @@ export declare type ResponseError<T> = {
     code: number;
     data?: T;
 };
-export default Resp;
+export default Response;
