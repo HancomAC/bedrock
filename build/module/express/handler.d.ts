@@ -1,3 +1,4 @@
 import express from "express";
-import { Handler } from "../types/router";
-export default function (...f: Handler[]): any;
+import { ACLHandler, Handler } from "../types/router";
+export default function (...f: Handler[]): express.RequestHandler;
+export declare function acl(aclChecker?: ACLHandler, handler?: Handler): Handler;

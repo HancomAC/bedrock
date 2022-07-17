@@ -1,8 +1,7 @@
-import express, {RequestHandler, RouterOptions} from "express";
-import Resp from "../types/response";
-import handler from "./handler";
+import express, {RouterOptions} from "express";
+import handler, {acl} from "./handler";
 import ws from 'express-ws';
-import {Handler, HandlerRegistrator, RouteCallback} from "../types/router";
+import {ACLHandler, Handler, RouteCallback} from "../types/router";
 import {auth} from "../util/jwt";
 
 interface RouterConfig extends RouteCallback {
@@ -20,20 +19,20 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
     _wsInstance?.applyTo?.(router)
 
     const defaultRouter = {
-        get: (path: string, f: Handler, __auth?: any) => {
-            router.get(path, handler(auth(_auth), auth(__auth), f));
+        get: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            router.get(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
-        post: (path: string, f: Handler, __auth?: any) => {
-            router.post(path, handler(auth(_auth), auth(__auth), f));
+        post: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            router.post(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
-        put: (path: string, f: Handler, __auth?: any) => {
-            router.put(path, handler(auth(_auth), auth(__auth), f));
+        put: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            router.put(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
-        delete: (path: string, f: Handler, __auth?: any) => {
-            router.delete(path, handler(auth(_auth), auth(__auth), f));
+        delete: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            router.delete(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
-        patch: (path: string, f: Handler, __auth?: any) => {
-            router.patch(path, handler(auth(_auth), auth(__auth), f));
+        patch: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            router.patch(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         }
     }
 

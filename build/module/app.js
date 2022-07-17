@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express_ws_1 = __importDefault(require("express-ws"));
 const prepare_1 = __importDefault(require("./express/prepare"));
-const handler_1 = __importDefault(require("./express/handler"));
+const handler_1 = __importStar(require("./express/handler"));
 const config_1 = __importDefault(require("./config"));
 const log_1 = __importDefault(require("./util/log"));
 const router_1 = require("./express/router");
@@ -54,20 +54,20 @@ function default_1({ port, name, cb, config }) {
             await cb({
                 app,
                 config,
-                get: (path, f, _auth) => {
-                    app.get(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
+                get: (path, f, _auth, _acl) => {
+                    app.get(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
                 },
-                post: (path, f, _auth) => {
-                    app.post(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
+                post: (path, f, _auth, _acl) => {
+                    app.post(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
                 },
-                put: (path, f, _auth) => {
-                    app.put(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
+                put: (path, f, _auth, _acl) => {
+                    app.put(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
                 },
-                delete: (path, f, _auth) => {
-                    app.delete(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
+                delete: (path, f, _auth, _acl) => {
+                    app.delete(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
                 },
-                patch: (path, f, _auth) => {
-                    app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
+                patch: (path, f, _auth, _acl) => {
+                    app.patch(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
                 },
                 ws: app.ws?.bind?.(app),
                 use: app.use.bind(app)
