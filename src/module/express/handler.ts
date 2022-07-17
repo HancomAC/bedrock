@@ -1,15 +1,15 @@
 import express from "express";
 import {ResponseError} from "../types/response";
 import {error} from "../util/log";
-import {Handler, Request} from "../types/router";
+import {ACLHandler, Handler, Request} from "../types/router";
 
-export default function (...f: Handler[]) {
+export default function (...f: Handler[]): express.RequestHandler {
     f = f.filter(x => x);
-    const middleware: express.RequestHandler = async (req, res) => {
+    return async (req, res, next) => {
         for (let i of f) {
             if (!i) continue;
             try {
-                const data = await i(req as Request, res);
+                const data = await i(req as Request, res, next);
                 if (data === false) continue;
                 if (data === true) return;
                 if ((data as ResponseError<any>).error) res.status((data as ResponseError<any>).code || 500);
@@ -22,5 +22,12 @@ export default function (...f: Handler[]) {
             }
         }
     };
-    return middleware
+}
+
+export function acl(aclChecker?: ACLHandler, handler?: Handler): Handler {
+    if (!aclChecker) return null;
+    return async (req, res, next) => {
+        if (!await aclChecker(req, res, next)) return false;
+        return await handler?.(req, res, next);
+    }
 }

@@ -1,12 +1,12 @@
 import express from 'express';
 import ws from 'express-ws';
 import prepare from "./express/prepare";
-import handler from "./express/handler";
+import handler, {acl} from "./express/handler";
 import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
 import authRouter, {auth} from './util/jwt'
-import {Handler, RouteCallback} from "./types/router";
+import {ACLHandler, Handler, RouteCallback} from "./types/router";
 
 interface AppConfig extends RouteCallback {
     app: express.Application
@@ -33,20 +33,20 @@ export default function ({port, name, cb, config}: {
         if (cb) await cb({
             app,
             config,
-            get: (path: string, f: Handler, _auth?: any) => {
-                app.get(path, handler(auth(_auth), f));
+            get: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                app.get(path, handler(acl(_acl, f), auth(_auth), f));
             },
-            post: (path: string, f: Handler, _auth?: any) => {
-                app.post(path, handler(auth(_auth), f));
+            post: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                app.post(path, handler(acl(_acl, f), auth(_auth), f));
             },
-            put: (path: string, f: Handler, _auth?: any) => {
-                app.put(path, handler(auth(_auth), f));
+            put: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                app.put(path, handler(acl(_acl, f), auth(_auth), f));
             },
-            delete: (path: string, f: Handler, _auth?: any) => {
-                app.delete(path, handler(auth(_auth), f));
+            delete: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                app.delete(path, handler(acl(_acl, f), auth(_auth), f));
             },
-            patch: (path: string, f: Handler, _auth?: any) => {
-                app.patch(path, handler(auth(_auth), f));
+            patch: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                app.patch(path, handler(acl(_acl, f), auth(_auth), f));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)

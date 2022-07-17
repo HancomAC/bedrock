@@ -1,14 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.acl = void 0;
 const log_1 = require("../util/log");
 function default_1(...f) {
     f = f.filter(x => x);
-    const middleware = async (req, res) => {
+    return async (req, res, next) => {
         for (let i of f) {
             if (!i)
                 continue;
             try {
-                const data = await i(req, res);
+                const data = await i(req, res, next);
                 if (data === false)
                     continue;
                 if (data === true)
@@ -25,7 +26,16 @@ function default_1(...f) {
             }
         }
     };
-    return middleware;
 }
 exports.default = default_1;
+function acl(aclChecker, handler) {
+    if (!aclChecker)
+        return null;
+    return async (req, res, next) => {
+        if (!await aclChecker(req, res, next))
+            return false;
+        return await handler?.(req, res, next);
+    };
+}
+exports.acl = acl;
 //# sourceMappingURL=handler.js.map
