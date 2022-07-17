@@ -39,12 +39,17 @@ function acl(aclChecker, handler) {
 exports.acl = acl;
 function generator(f) {
     let data = null;
-    return async (req, res, next) => {
+    const g = async (req, res, next) => {
         if (data)
             return data;
         data = await f(req, res, next);
         return data;
     };
+    g.refresh = async () => {
+        data = null;
+        return false;
+    };
+    return g;
 }
 exports.generator = generator;
 //# sourceMappingURL=handler.js.map

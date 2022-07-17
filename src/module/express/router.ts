@@ -20,24 +20,24 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
 
     const defaultRouter = {
         get: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
-            f = generator(f);
-            router.get(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
+            let g = generator(f);
+            router.get(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
         },
         post: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
-            f = generator(f);
-            router.post(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
+            let g = generator(f);
+            router.post(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
         },
         put: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
-            f = generator(f);
-            router.put(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
+            let g = generator(f);
+            router.put(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
         },
         delete: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
-            f = generator(f);
-            router.delete(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
+            let g = generator(f);
+            router.delete(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
         },
         patch: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
-            f = generator(f);
-            router.patch(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
+            let g = generator(f);
+            router.patch(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
         }
     }
 
@@ -52,7 +52,10 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
             router,
             ...defaultRouter,
             use: (...args) => {
-                router.use(args[0], ...args.slice(1).map(r => handler(auth(!!_auth), acl(_acl, r), auth(_auth), r)));
+                router.use(args[0], ...args.slice(1).map(r => {
+                    let g = generator(r);
+                    return handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), g)
+                }));
             },
             ws: router.ws?.bind?.(router)
         })
