@@ -1,5 +1,5 @@
 import express, {RouterOptions} from "express";
-import handler, {acl} from "./handler";
+import handler, {acl, generator} from "./handler";
 import ws from 'express-ws';
 import {ACLHandler, Handler, RouteCallback} from "../types/router";
 import {auth} from "../util/jwt";
@@ -20,18 +20,23 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
 
     const defaultRouter = {
         get: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            f = generator(f);
             router.get(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
         post: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            f = generator(f);
             router.post(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
         put: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            f = generator(f);
             router.put(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
         delete: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            f = generator(f);
             router.delete(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         },
         patch: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+            f = generator(f);
             router.patch(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
         }
     }
