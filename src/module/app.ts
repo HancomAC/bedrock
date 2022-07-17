@@ -1,7 +1,7 @@
 import express from 'express';
 import ws from 'express-ws';
 import prepare from "./express/prepare";
-import handler, {acl} from "./express/handler";
+import handler, {acl, generator} from "./express/handler";
 import _bedrock from './config'
 import log from "./util/log";
 import {setWsInstance} from "./express/router";
@@ -34,18 +34,23 @@ export default function ({port, name, cb, config}: {
             app,
             config,
             get: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                f = generator(f);
                 app.get(path, handler(acl(_acl, f), auth(_auth), f));
             },
             post: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                f = generator(f);
                 app.post(path, handler(acl(_acl, f), auth(_auth), f));
             },
             put: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                f = generator(f);
                 app.put(path, handler(acl(_acl, f), auth(_auth), f));
             },
             delete: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                f = generator(f);
                 app.delete(path, handler(acl(_acl, f), auth(_auth), f));
             },
             patch: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
+                f = generator(f);
                 app.patch(path, handler(acl(_acl, f), auth(_auth), f));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,

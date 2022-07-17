@@ -1,5 +1,5 @@
 import express from "express";
-import {ResponseError} from "../types/response";
+import {ResponseError, ResponseSuccess} from "../types/response";
 import {error} from "../util/log";
 import {ACLHandler, Handler, Request} from "../types/router";
 
@@ -25,9 +25,18 @@ export default function (...f: Handler[]): express.RequestHandler {
 }
 
 export function acl(aclChecker?: ACLHandler, handler?: Handler): Handler {
-    if (!aclChecker) return null;
     return async (req, res, next) => {
-        if (!await aclChecker(req, res, next)) return false;
-        return await handler?.(req, res, next);
+        const data = await handler?.(req, res, next);
+        if ((<ResponseSuccess<any>>data).owner === req.auth?.id) return data;
+        return aclChecker ? await aclChecker(req, data) : false;
+    }
+}
+
+export function generator(f: Handler) {
+    let data = null;
+    return async (req, res, next) => {
+        if (data) return data;
+        data = await f(req, res, next);
+        return data;
     }
 }

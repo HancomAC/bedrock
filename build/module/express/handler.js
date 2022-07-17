@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.acl = void 0;
+exports.generator = exports.acl = void 0;
 const log_1 = require("../util/log");
 function default_1(...f) {
     f = f.filter(x => x);
@@ -29,13 +29,22 @@ function default_1(...f) {
 }
 exports.default = default_1;
 function acl(aclChecker, handler) {
-    if (!aclChecker)
-        return null;
     return async (req, res, next) => {
-        if (!await aclChecker(req, res, next))
-            return false;
-        return await handler?.(req, res, next);
+        const data = await handler?.(req, res, next);
+        if (data.owner === req.auth?.id)
+            return data;
+        return aclChecker ? await aclChecker(req, data) : false;
     };
 }
 exports.acl = acl;
+function generator(f) {
+    let data = null;
+    return async (req, res, next) => {
+        if (data)
+            return data;
+        data = await f(req, res, next);
+        return data;
+    };
+}
+exports.generator = generator;
 //# sourceMappingURL=handler.js.map

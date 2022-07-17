@@ -40,18 +40,23 @@ async function default_1(cb, options, _auth) {
     _wsInstance?.applyTo?.(router);
     const defaultRouter = {
         get: (path, f, __auth, _acl) => {
+            f = (0, handler_1.generator)(f);
             router.get(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
         post: (path, f, __auth, _acl) => {
+            f = (0, handler_1.generator)(f);
             router.post(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
         put: (path, f, __auth, _acl) => {
+            f = (0, handler_1.generator)(f);
             router.put(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
         delete: (path, f, __auth, _acl) => {
+            f = (0, handler_1.generator)(f);
             router.delete(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
         patch: (path, f, __auth, _acl) => {
+            f = (0, handler_1.generator)(f);
             router.patch(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         }
     };
