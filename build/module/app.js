@@ -55,24 +55,24 @@ function default_1({ port, name, cb, config }) {
                 app,
                 config,
                 get: (path, f, _auth, _acl) => {
-                    f = (0, handler_1.generator)(f);
-                    app.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
+                    let g = (0, handler_1.generator)(f);
+                    app.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
                 },
                 post: (path, f, _auth, _acl) => {
-                    f = (0, handler_1.generator)(f);
-                    app.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
+                    let g = (0, handler_1.generator)(f);
+                    app.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
                 },
                 put: (path, f, _auth, _acl) => {
-                    f = (0, handler_1.generator)(f);
-                    app.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
+                    let g = (0, handler_1.generator)(f);
+                    app.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
                 },
                 delete: (path, f, _auth, _acl) => {
-                    f = (0, handler_1.generator)(f);
-                    app.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
+                    let g = (0, handler_1.generator)(f);
+                    app.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
                 },
                 patch: (path, f, _auth, _acl) => {
-                    f = (0, handler_1.generator)(f);
-                    app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), f));
+                    let g = (0, handler_1.generator)(f);
+                    app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
                 },
                 ws: app.ws?.bind?.(app),
                 use: app.use.bind(app)

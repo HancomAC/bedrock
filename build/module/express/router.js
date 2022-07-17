@@ -40,24 +40,24 @@ async function default_1(cb, options, _auth, _acl) {
     _wsInstance?.applyTo?.(router);
     const defaultRouter = {
         get: (path, f, __auth, __acl) => {
-            f = (0, handler_1.generator)(f);
-            router.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            let g = (0, handler_1.generator)(f);
+            router.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
         },
         post: (path, f, __auth, __acl) => {
-            f = (0, handler_1.generator)(f);
-            router.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            let g = (0, handler_1.generator)(f);
+            router.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
         },
         put: (path, f, __auth, __acl) => {
-            f = (0, handler_1.generator)(f);
-            router.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            let g = (0, handler_1.generator)(f);
+            router.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
         },
         delete: (path, f, __auth, __acl) => {
-            f = (0, handler_1.generator)(f);
-            router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            let g = (0, handler_1.generator)(f);
+            router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
         },
         patch: (path, f, __auth, __acl) => {
-            f = (0, handler_1.generator)(f);
-            router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            let g = (0, handler_1.generator)(f);
+            router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
         }
     };
     if (cb) {
@@ -73,7 +73,10 @@ async function default_1(cb, options, _auth, _acl) {
                 router,
                 ...defaultRouter,
                 use: (...args) => {
-                    router.use(args[0], ...args.slice(1).map(r => (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, r), (0, jwt_1.auth)(_auth), r)));
+                    router.use(args[0], ...args.slice(1).map(r => {
+                        let g = (0, handler_1.generator)(r);
+                        return (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g);
+                    }));
                 },
                 ws: router.ws?.bind?.(router)
             });

@@ -32,11 +32,16 @@ export function acl(aclChecker?: ACLHandler, handler?: Handler): Handler {
     }
 }
 
-export function generator(f: Handler) {
+export function generator(f: Handler | express.RequestHandler) {
     let data = null;
-    return async (req, res, next) => {
+    const g = async (req, res, next) => {
         if (data) return data;
         data = await f(req, res, next);
         return data;
     }
+    g.refresh = async () => {
+        data = null;
+        return false;
+    }
+    return g;
 }
