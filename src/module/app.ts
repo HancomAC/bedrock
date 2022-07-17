@@ -34,24 +34,19 @@ export default function ({port, name, cb, config}: {
             app,
             config,
             get: (path: string, f: Handler, _auth?: any) => {
-                if (_auth) app.get(path, handler(auth(f, _auth)));
-                else app.get(path, handler(f));
+                app.get(path, handler(auth(_auth), f));
             },
             post: (path: string, f: Handler, _auth?: any) => {
-                if (_auth) app.post(path, handler(auth(f, _auth)));
-                else app.post(path, handler(f));
+                app.post(path, handler(auth(_auth), f));
             },
             put: (path: string, f: Handler, _auth?: any) => {
-                if (_auth) app.put(path, handler(auth(f, _auth)));
-                else app.put(path, handler(f));
+                app.put(path, handler(auth(_auth), f));
             },
             delete: (path: string, f: Handler, _auth?: any) => {
-                if (_auth) app.delete(path, handler(auth(f, _auth)));
-                else app.delete(path, handler(f));
+                app.delete(path, handler(auth(_auth), f));
             },
             patch: (path: string, f: Handler, _auth?: any) => {
-                if (_auth) app.patch(path, handler(auth(f, _auth)));
-                else app.patch(path, handler(f));
+                app.patch(path, handler(auth(_auth), f));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)
