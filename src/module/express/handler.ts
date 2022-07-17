@@ -27,7 +27,8 @@ export default function (...f: Handler[]): express.RequestHandler {
 export function acl(aclChecker?: ACLHandler, handler?: Handler): Handler {
     return async (req, res, next) => {
         const data = await handler?.(req, res, next);
-        if ((<ResponseSuccess<any>>data).owner === req.auth?.id) return data;
+        if (data === true) return true;
+        if ((<ResponseSuccess<any>>data)?.owner === req.auth?.id) return data;
         return aclChecker ? await aclChecker(req, data) : false;
     }
 }

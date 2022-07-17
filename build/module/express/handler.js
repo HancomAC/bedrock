@@ -31,7 +31,9 @@ exports.default = default_1;
 function acl(aclChecker, handler) {
     return async (req, res, next) => {
         const data = await handler?.(req, res, next);
-        if (data.owner === req.auth?.id)
+        if (data === true)
+            return true;
+        if (data?.owner === req.auth?.id)
             return data;
         return aclChecker ? await aclChecker(req, data) : false;
     };
