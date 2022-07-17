@@ -19,6 +19,7 @@ declare const gcp: {
         dool_r2: import("@google-cloud/pubsub").Topic;
         dool_r4: import("@google-cloud/pubsub").Topic;
         dool_r8: import("@google-cloud/pubsub").Topic;
+        dool_beta: import("@google-cloud/pubsub").Topic;
     };
 };
 export default gcp;
@@ -42,4 +43,5 @@ export declare const pubsub: {
     dool_r2: import("@google-cloud/pubsub").Topic;
     dool_r4: import("@google-cloud/pubsub").Topic;
     dool_r8: import("@google-cloud/pubsub").Topic;
+    dool_beta: import("@google-cloud/pubsub").Topic;
 };

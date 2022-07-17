@@ -6,7 +6,7 @@ export declare function save(res: express.Response, data: any, expire?: number, 
 export declare function revoke(res: express.Response): void;
 export default function (req: express.Request, res: express.Response, next: express.NextFunction): void;
 export declare const auth: {
-    (cb: Handler, permission?: Object): (req: any, res: any) => Promise<import("../types/response").ResponseSuccess<any> | import("../types/response").ResponseError<any>>;
+    (permission?: Object): Handler;
     sign: typeof sign;
     verify: typeof verify;
     save: typeof save;

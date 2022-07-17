@@ -20,25 +20,20 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
     _wsInstance?.applyTo?.(router)
 
     const defaultRouter = {
-        get: (path: string, f: Handler, _auth?: any) => {
-            if (_auth) router.get(path, handler(auth(f, _auth)));
-            else router.get(path, handler(f));
+        get: (path: string, f: Handler, __auth?: any) => {
+            router.get(path, handler(auth(_auth), auth(__auth), f));
         },
-        post: (path: string, f: Handler, _auth?: any) => {
-            if (_auth) router.post(path, handler(auth(f, _auth)));
-            else router.post(path, handler(f));
+        post: (path: string, f: Handler, __auth?: any) => {
+            router.post(path, handler(auth(_auth), auth(__auth), f));
         },
-        put: (path: string, f: Handler, _auth?: any) => {
-            if (_auth) router.put(path, handler(auth(f, _auth)));
-            else router.put(path, handler(f));
+        put: (path: string, f: Handler, __auth?: any) => {
+            router.put(path, handler(auth(_auth), auth(__auth), f));
         },
-        delete: (path: string, f: Handler, _auth?: any) => {
-            if (_auth) router.delete(path, handler(auth(f, _auth)));
-            else router.delete(path, handler(f));
+        delete: (path: string, f: Handler, __auth?: any) => {
+            router.delete(path, handler(auth(_auth), auth(__auth), f));
         },
-        patch: (path: string, f: Handler, _auth?: any) => {
-            if (_auth) router.patch(path, handler(auth(f, _auth)));
-            else router.patch(path, handler(f));
+        patch: (path: string, f: Handler, __auth?: any) => {
+            router.patch(path, handler(auth(_auth), auth(__auth), f));
         }
     }
 
@@ -53,7 +48,7 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
             router,
             ...defaultRouter,
             use: (...args) => {
-                router.use(args[0], handler(auth(args[1], _auth)), ...args.slice(1));
+                router.use(args[0], handler(auth(_auth), args[1]), ...args.slice(1));
             },
             ws: router.ws?.bind?.(router)
         })

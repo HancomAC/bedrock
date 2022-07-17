@@ -1,8 +1,9 @@
 import express from "express";
-import Resp from "../types/response";
+import Resp, {ResponseInternal} from "../types/response";
 import ws from 'express-ws';
 
-export type Handler = (req: express.Request & { auth: any, req_ip: string }, res?: express.Response, next?: express.NextFunction) => (Resp<any> | Promise<null>)
+export type Request = express.Request & { auth: any, req_ip: string };
+export type Handler = (req: Request, res?: express.Response, next?: express.NextFunction) => (ResponseInternal<any>)
 export type HandlerRegistrator = (path: string, handler: Handler, _auth?: any) => any
 
 export interface RouteCallback {

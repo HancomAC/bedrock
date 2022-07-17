@@ -37,15 +37,16 @@ export default function (req: express.Request, res: express.Response, next: expr
     next();
 }
 
-export const auth = (cb: Handler, permission?: Object) => {
-    return async (req, res) => {
+export const auth = (permission?: Object): Handler => {
+    if (!permission) return null;
+    return async (req) => {
         if (!req.auth) return {error: 'Authorization required', code: 401};
         if (typeof permission === 'object') {
             for (let key in permission) {
                 if (req.auth.permission[key] !== permission[key]) return {error: 'Permission denied', code: 403};
             }
         }
-        return cb(req, res);
+        return false;
     }
 }
 

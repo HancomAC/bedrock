@@ -16,35 +16,20 @@ async function default_1(cb, options, _auth) {
     const router = express_1.default.Router(options);
     _wsInstance?.applyTo?.(router);
     const defaultRouter = {
-        get: (path, f, _auth) => {
-            if (_auth)
-                router.get(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-            else
-                router.get(path, (0, handler_1.default)(f));
+        get: (path, f, __auth) => {
+            router.get(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        post: (path, f, _auth) => {
-            if (_auth)
-                router.post(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-            else
-                router.post(path, (0, handler_1.default)(f));
+        post: (path, f, __auth) => {
+            router.post(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        put: (path, f, _auth) => {
-            if (_auth)
-                router.put(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-            else
-                router.put(path, (0, handler_1.default)(f));
+        put: (path, f, __auth) => {
+            router.put(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        delete: (path, f, _auth) => {
-            if (_auth)
-                router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-            else
-                router.delete(path, (0, handler_1.default)(f));
+        delete: (path, f, __auth) => {
+            router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        patch: (path, f, _auth) => {
-            if (_auth)
-                router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-            else
-                router.patch(path, (0, handler_1.default)(f));
+        patch: (path, f, __auth) => {
+            router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         }
     };
     if (cb) {
@@ -60,7 +45,7 @@ async function default_1(cb, options, _auth) {
                 router,
                 ...defaultRouter,
                 use: (...args) => {
-                    router.use(args[0], (0, handler_1.default)((0, jwt_1.auth)(args[1], _auth)), ...args.slice(1));
+                    router.use(args[0], (0, handler_1.default)((0, jwt_1.auth)(_auth), args[1]), ...args.slice(1));
                 },
                 ws: router.ws?.bind?.(router)
             });

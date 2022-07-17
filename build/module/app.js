@@ -55,34 +55,19 @@ function default_1({ port, name, cb, config }) {
                 app,
                 config,
                 get: (path, f, _auth) => {
-                    if (_auth)
-                        app.get(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-                    else
-                        app.get(path, (0, handler_1.default)(f));
+                    app.get(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
                 },
                 post: (path, f, _auth) => {
-                    if (_auth)
-                        app.post(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-                    else
-                        app.post(path, (0, handler_1.default)(f));
+                    app.post(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
                 },
                 put: (path, f, _auth) => {
-                    if (_auth)
-                        app.put(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-                    else
-                        app.put(path, (0, handler_1.default)(f));
+                    app.put(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
                 },
                 delete: (path, f, _auth) => {
-                    if (_auth)
-                        app.delete(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-                    else
-                        app.delete(path, (0, handler_1.default)(f));
+                    app.delete(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
                 },
                 patch: (path, f, _auth) => {
-                    if (_auth)
-                        app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(f, _auth)));
-                    else
-                        app.patch(path, (0, handler_1.default)(f));
+                    app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(_auth), f));
                 },
                 ws: app.ws?.bind?.(app),
                 use: app.use.bind(app)

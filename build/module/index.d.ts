@@ -25,6 +25,7 @@ export declare const gcp: {
         dool_r2: import("@google-cloud/pubsub").Topic;
         dool_r4: import("@google-cloud/pubsub").Topic;
         dool_r8: import("@google-cloud/pubsub").Topic;
+        dool_beta: import("@google-cloud/pubsub").Topic;
     };
 };
 export declare const algolia: {
@@ -32,7 +33,7 @@ export declare const algolia: {
     ProblemIndex: import("algoliasearch").SearchIndex;
 };
 export declare const auth: {
-    (cb: import("./types/router").Handler, permission?: Object): (req: any, res: any) => Promise<import("./types/response").ResponseSuccess<any> | import("./types/response").ResponseError<any>>;
+    (permission?: Object): import("./types/router").Handler;
     sign: typeof import("./util/jwt").sign;
     verify: typeof import("./util/jwt").verify;
     save: typeof import("./util/jwt").save;

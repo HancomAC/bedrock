@@ -40,8 +40,10 @@ function default_1(req, res, next) {
     next();
 }
 exports.default = default_1;
-const auth = (cb, permission) => {
-    return async (req, res) => {
+const auth = (permission) => {
+    if (!permission)
+        return null;
+    return async (req) => {
         if (!req.auth)
             return { error: 'Authorization required', code: 401 };
         if (typeof permission === 'object') {
@@ -50,7 +52,7 @@ const auth = (cb, permission) => {
                     return { error: 'Permission denied', code: 403 };
             }
         }
-        return cb(req, res);
+        return false;
     };
 };
 exports.auth = auth;
