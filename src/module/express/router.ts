@@ -14,30 +14,30 @@ export function setWsInstance(wsInstance: ws.Instance) {
     _wsInstance = wsInstance;
 }
 
-export default async function (cb?: (data: RouterConfig) => any, options?: RouterOptions, _auth?: any): Promise<express.Router> {
+export default async function (cb?: (data: RouterConfig) => any, options?: RouterOptions, _auth?: any, _acl?: ACLHandler): Promise<express.Router> {
     const router = express.Router(options)
     _wsInstance?.applyTo?.(router)
 
     const defaultRouter = {
-        get: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+        get: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
             f = generator(f);
-            router.get(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
+            router.get(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
         },
-        post: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+        post: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
             f = generator(f);
-            router.post(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
+            router.post(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
         },
-        put: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+        put: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
             f = generator(f);
-            router.put(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
+            router.put(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
         },
-        delete: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+        delete: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
             f = generator(f);
-            router.delete(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
+            router.delete(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
         },
-        patch: (path: string, f: Handler, __auth?: any, _acl?: ACLHandler) => {
+        patch: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
             f = generator(f);
-            router.patch(path, handler(acl(_acl, f), auth(_auth), auth(__auth), f));
+            router.patch(path, handler(auth(!!(_auth || __auth)), acl(_acl, f), acl(__acl, f), auth(_auth), auth(__auth), f));
         }
     }
 
@@ -52,7 +52,7 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
             router,
             ...defaultRouter,
             use: (...args) => {
-                router.use(args[0], handler(auth(_auth), args[1]), ...args.slice(1));
+                router.use(args[0], ...args.slice(1).map(r => handler(auth(!!_auth), acl(_acl, r), auth(_auth), r)));
             },
             ws: router.ws?.bind?.(router)
         })

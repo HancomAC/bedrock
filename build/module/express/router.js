@@ -35,29 +35,29 @@ function setWsInstance(wsInstance) {
     _wsInstance = wsInstance;
 }
 exports.setWsInstance = setWsInstance;
-async function default_1(cb, options, _auth) {
+async function default_1(cb, options, _auth, _acl) {
     const router = express_1.default.Router(options);
     _wsInstance?.applyTo?.(router);
     const defaultRouter = {
-        get: (path, f, __auth, _acl) => {
+        get: (path, f, __auth, __acl) => {
             f = (0, handler_1.generator)(f);
-            router.get(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            router.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        post: (path, f, __auth, _acl) => {
+        post: (path, f, __auth, __acl) => {
             f = (0, handler_1.generator)(f);
-            router.post(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            router.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        put: (path, f, __auth, _acl) => {
+        put: (path, f, __auth, __acl) => {
             f = (0, handler_1.generator)(f);
-            router.put(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            router.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        delete: (path, f, __auth, _acl) => {
+        delete: (path, f, __auth, __acl) => {
             f = (0, handler_1.generator)(f);
-            router.delete(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         },
-        patch: (path, f, __auth, _acl) => {
+        patch: (path, f, __auth, __acl) => {
             f = (0, handler_1.generator)(f);
-            router.patch(path, (0, handler_1.default)((0, handler_1.acl)(_acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
+            router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), (0, handler_1.acl)(_acl, f), (0, handler_1.acl)(__acl, f), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), f));
         }
     };
     if (cb) {
@@ -73,7 +73,7 @@ async function default_1(cb, options, _auth) {
                 router,
                 ...defaultRouter,
                 use: (...args) => {
-                    router.use(args[0], (0, handler_1.default)((0, jwt_1.auth)(_auth), args[1]), ...args.slice(1));
+                    router.use(args[0], ...args.slice(1).map(r => (0, handler_1.default)((0, jwt_1.auth)(!!_auth), (0, handler_1.acl)(_acl, r), (0, jwt_1.auth)(_auth), r)));
                 },
                 ws: router.ws?.bind?.(router)
             });

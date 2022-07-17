@@ -35,23 +35,23 @@ export default function ({port, name, cb, config}: {
             config,
             get: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 f = generator(f);
-                app.get(path, handler(acl(_acl, f), auth(_auth), f));
+                app.get(path, handler(auth(!!_auth), acl(_acl, f), auth(_auth), f));
             },
             post: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 f = generator(f);
-                app.post(path, handler(acl(_acl, f), auth(_auth), f));
+                app.post(path, handler(auth(!!_auth), acl(_acl, f), auth(_auth), f));
             },
             put: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 f = generator(f);
-                app.put(path, handler(acl(_acl, f), auth(_auth), f));
+                app.put(path, handler(auth(!!_auth), acl(_acl, f), auth(_auth), f));
             },
             delete: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 f = generator(f);
-                app.delete(path, handler(acl(_acl, f), auth(_auth), f));
+                app.delete(path, handler(auth(!!_auth), acl(_acl, f), auth(_auth), f));
             },
             patch: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 f = generator(f);
-                app.patch(path, handler(acl(_acl, f), auth(_auth), f));
+                app.patch(path, handler(auth(!!_auth), acl(_acl, f), auth(_auth), f));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)
