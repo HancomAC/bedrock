@@ -75,7 +75,7 @@ async function default_1(cb, options, _auth, _acl) {
                 use: (...args) => {
                     router.use(args[0], ...args.slice(1).map(r => {
                         let g = (0, handler_1.generator)(r);
-                        return (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g);
+                        return (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g, false), (0, jwt_1.auth)(_auth), g);
                     }));
                 },
                 ws: router.ws?.bind?.(router)

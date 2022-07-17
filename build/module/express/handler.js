@@ -28,8 +28,10 @@ function default_1(...f) {
     };
 }
 exports.default = default_1;
-function acl(aclChecker, handler) {
+function acl(aclChecker, handler, checkDefault = true) {
     if (aclChecker === false)
+        return null;
+    if (!aclChecker && !checkDefault)
         return null;
     return async (req, res, next) => {
         const data = await handler?.(req, res, next);
