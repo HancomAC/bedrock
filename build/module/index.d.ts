@@ -2,6 +2,7 @@ import './util/env';
 import App from "./app";
 import _log from "./util/log";
 import _router from "./express/router";
+import _handler from "./express/handler";
 export declare const log: typeof _log;
 export declare const router: typeof _router;
 export declare const gcp: {
@@ -39,4 +40,5 @@ export declare const auth: {
     save: typeof import("./util/jwt").save;
     revoke: typeof import("./util/jwt").revoke;
 };
+export declare const handler: typeof _handler;
 export default App;
