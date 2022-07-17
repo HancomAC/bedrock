@@ -54,7 +54,7 @@ export default async function (cb?: (data: RouterConfig) => any, options?: Route
             use: (...args) => {
                 router.use(args[0], ...args.slice(1).map(r => {
                     let g = generator(r);
-                    return handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), g)
+                    return handler(auth(!!_auth), g.refresh, acl(_acl, g, false), auth(_auth), g)
                 }));
             },
             ws: router.ws?.bind?.(router)

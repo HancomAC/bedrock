@@ -24,8 +24,9 @@ export default function (...f: Handler[]): express.RequestHandler {
     };
 }
 
-export function acl(aclChecker?: ACLHandler, handler?: Handler): Handler {
+export function acl(aclChecker?: ACLHandler, handler?: Handler, checkDefault = true): Handler {
     if (aclChecker === false) return null;
+    if (!aclChecker && !checkDefault) return null;
     return async (req, res, next) => {
         const data = await handler?.(req, res, next);
         if (data === true) return true;
