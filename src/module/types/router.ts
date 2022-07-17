@@ -5,7 +5,7 @@ import ws from 'express-ws';
 export type Request = express.Request & { auth: any, req_ip: string };
 export type Handler = (req: Request, res?: express.Response, next?: express.NextFunction) => (ResponseInternal<any>)
 export type HandlerRegistrator = (path: string, handler: Handler, _auth?: any, _acl?: ACLHandler) => any
-export type ACLHandler = (req: Request, data: any) => Promise<boolean>
+export type ACLHandler = ((req: Request, data: any) => Promise<boolean>) | false
 
 export interface RouteCallback {
     get: HandlerRegistrator,

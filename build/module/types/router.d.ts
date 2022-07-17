@@ -7,7 +7,7 @@ export declare type Request = express.Request & {
 };
 export declare type Handler = (req: Request, res?: express.Response, next?: express.NextFunction) => (ResponseInternal<any>);
 export declare type HandlerRegistrator = (path: string, handler: Handler, _auth?: any, _acl?: ACLHandler) => any;
-export declare type ACLHandler = (req: Request, data: any) => Promise<boolean>;
+export declare type ACLHandler = ((req: Request, data: any) => Promise<boolean>) | false;
 export interface RouteCallback {
     get: HandlerRegistrator;
     post: HandlerRegistrator;
