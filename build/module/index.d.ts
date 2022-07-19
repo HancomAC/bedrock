@@ -32,6 +32,7 @@ export declare const gcp: {
 export declare const algolia: {
     client: import("algoliasearch").SearchClient;
     ProblemIndex: import("algoliasearch").SearchIndex;
+    GroupIndex: import("algoliasearch").SearchIndex;
 };
 export declare const auth: {
     (permission?: Object): import("./types/router").Handler;
