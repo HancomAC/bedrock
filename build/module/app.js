@@ -32,7 +32,6 @@ const prepare_1 = __importDefault(require("./express/prepare"));
 const handler_1 = __importStar(require("./express/handler"));
 const config_1 = __importDefault(require("./config"));
 const log_1 = __importDefault(require("./util/log"));
-const router_1 = require("./express/router");
 const jwt_1 = __importStar(require("./util/jwt"));
 function default_1({ port, name, cb, config }) {
     return new Promise(async (resolve) => {
@@ -47,7 +46,6 @@ function default_1({ port, name, cb, config }) {
         if (!config)
             config = {};
         const instance = (0, express_ws_1.default)((0, express_1.default)()), app = instance.app;
-        (0, router_1.setWsInstance)(instance);
         (0, prepare_1.default)(app);
         app.use(jwt_1.default);
         if (cb)
@@ -73,6 +71,9 @@ function default_1({ port, name, cb, config }) {
                 patch: (path, f, _auth, _acl) => {
                     let g = (0, handler_1.generator)(f);
                     app.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g), (0, jwt_1.auth)(_auth), g));
+                },
+                r: async (path, f) => {
+                    app.use(path, await f(instance));
                 },
                 ws: app.ws?.bind?.(app),
                 use: app.use.bind(app)
