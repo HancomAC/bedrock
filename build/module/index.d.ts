@@ -42,4 +42,5 @@ export declare const auth: {
     revoke: typeof import("./util/jwt").revoke;
 };
 export declare const handler: typeof _handler;
+export declare const uuid: (<T extends ArrayLike<number>>(options: import("uuid").V4Options, buffer: T, offset?: number) => T) & ((options?: import("uuid").V4Options) => string);
 export default App;
