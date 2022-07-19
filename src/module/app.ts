@@ -4,9 +4,8 @@ import prepare from "./express/prepare";
 import handler, {acl, generator} from "./express/handler";
 import _bedrock from './config'
 import log from "./util/log";
-import {setWsInstance} from "./express/router";
 import authRouter, {auth} from './util/jwt'
-import {ACLHandler, Handler, RouteCallback} from "./types/router";
+import {ACLHandler, Handler, RouteCallback, Router} from "./types/router";
 
 interface AppConfig extends RouteCallback {
     app: express.Application
@@ -26,7 +25,6 @@ export default function ({port, name, cb, config}: {
 
         const instance = ws(express()), app = instance.app;
 
-        setWsInstance(instance);
         prepare(app);
         app.use(authRouter);
 
@@ -52,6 +50,9 @@ export default function ({port, name, cb, config}: {
             patch: (path: string, f: Handler, _auth?: any, _acl?: ACLHandler) => {
                 let g = generator(f);
                 app.patch(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), g));
+            },
+            r: async (path: string, f: Router) => {
+                app.use(path, await f(instance));
             },
             ws: app.ws?.bind?.(app) as typeof app.ws,
             use: app.use.bind(app)

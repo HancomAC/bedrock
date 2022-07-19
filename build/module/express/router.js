@@ -26,62 +26,61 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.setWsInstance = void 0;
 const express_1 = __importDefault(require("express"));
 const handler_1 = __importStar(require("./handler"));
 const jwt_1 = require("../util/jwt");
-let _wsInstance;
-function setWsInstance(wsInstance) {
-    _wsInstance = wsInstance;
-}
-exports.setWsInstance = setWsInstance;
-async function default_1(cb, options, _auth, _acl) {
-    const router = express_1.default.Router(options);
-    _wsInstance?.applyTo?.(router);
-    const defaultRouter = {
-        get: (path, f, __auth, __acl) => {
-            let g = (0, handler_1.generator)(f);
-            router.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
-        },
-        post: (path, f, __auth, __acl) => {
-            let g = (0, handler_1.generator)(f);
-            router.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
-        },
-        put: (path, f, __auth, __acl) => {
-            let g = (0, handler_1.generator)(f);
-            router.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
-        },
-        delete: (path, f, __auth, __acl) => {
-            let g = (0, handler_1.generator)(f);
-            router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
-        },
-        patch: (path, f, __auth, __acl) => {
-            let g = (0, handler_1.generator)(f);
-            router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+function default_1(cb, options, _auth, _acl) {
+    return async (wsInstance) => {
+        const router = express_1.default.Router(options);
+        wsInstance?.applyTo?.(router);
+        const defaultRouter = {
+            get: (path, f, __auth, __acl) => {
+                let g = (0, handler_1.generator)(f);
+                router.get(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+            },
+            post: (path, f, __auth, __acl) => {
+                let g = (0, handler_1.generator)(f);
+                router.post(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+            },
+            put: (path, f, __auth, __acl) => {
+                let g = (0, handler_1.generator)(f);
+                router.put(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+            },
+            delete: (path, f, __auth, __acl) => {
+                let g = (0, handler_1.generator)(f);
+                router.delete(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+            },
+            patch: (path, f, __auth, __acl) => {
+                let g = (0, handler_1.generator)(f);
+                router.patch(path, (0, handler_1.default)((0, jwt_1.auth)(!!(_auth || __auth)), g.refresh, (0, handler_1.acl)(_acl, g), (0, handler_1.acl)(__acl, g), (0, jwt_1.auth)(_auth), (0, jwt_1.auth)(__auth), g));
+            },
+            r: async (path, f) => {
+                router.use(path, await f(wsInstance));
+            },
+        };
+        if (cb) {
+            if (!_auth)
+                await cb({
+                    router,
+                    ...defaultRouter,
+                    use: router.use.bind(router),
+                    ws: router.ws?.bind?.(router)
+                });
+            else
+                await cb({
+                    router,
+                    ...defaultRouter,
+                    use: (...args) => {
+                        router.use(args[0], ...args.slice(1).map(r => {
+                            let g = (0, handler_1.generator)(r);
+                            return (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g, false), (0, jwt_1.auth)(_auth), g);
+                        }));
+                    },
+                    ws: router.ws?.bind?.(router)
+                });
         }
+        return router;
     };
-    if (cb) {
-        if (!_auth)
-            await cb({
-                router,
-                ...defaultRouter,
-                use: router.use.bind(router),
-                ws: router.ws?.bind?.(router)
-            });
-        else
-            await cb({
-                router,
-                ...defaultRouter,
-                use: (...args) => {
-                    router.use(args[0], ...args.slice(1).map(r => {
-                        let g = (0, handler_1.generator)(r);
-                        return (0, handler_1.default)((0, jwt_1.auth)(!!_auth), g.refresh, (0, handler_1.acl)(_acl, g, false), (0, jwt_1.auth)(_auth), g);
-                    }));
-                },
-                ws: router.ws?.bind?.(router)
-            });
-    }
-    return router;
 }
 exports.default = default_1;
 //# sourceMappingURL=router.js.map

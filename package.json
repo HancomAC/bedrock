@@ -1,6 +1,6 @@
 {
   "name": "@hancomeducation/bedrock",
-  "version": "1.5.6",
+  "version": "1.6.0",
   "description": "Jungol common backend platform",
   "main": "build/module/index.js",
   "types": "build/module/index.d.ts",

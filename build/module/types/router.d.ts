@@ -8,6 +8,7 @@ export declare type Request = express.Request & {
 export declare type Handler = (req: Request, res?: express.Response, next?: express.NextFunction) => (ResponseInternal<any>);
 export declare type HandlerRegistrator = (path: string, handler: Handler, _auth?: any, _acl?: ACLHandler) => any;
 export declare type ACLHandler = ((req: Request, data: any) => Promise<boolean>) | false;
+export declare type Router = (wsInstance: ws.Instance) => Promise<express.Router>;
 export interface RouteCallback {
     get: HandlerRegistrator;
     post: HandlerRegistrator;
@@ -16,4 +17,5 @@ export interface RouteCallback {
     patch: HandlerRegistrator;
     use: express.IRouterHandler<any> & express.IRouterMatcher<any>;
     ws: ws.WebsocketMethod<any>;
+    r: (path: string, f: Router) => Promise<any>;
 }
