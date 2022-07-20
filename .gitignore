@@ -118,3 +118,4 @@ dist
 
 gcp/
 build/
+src/module/config.ts
