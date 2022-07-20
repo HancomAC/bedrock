@@ -47,7 +47,10 @@ function copyFolderSync(from, to) {
 
 fs.writeFileSync('src/module/config.ts', `export default ${config}`)
 childProcess.execSync('tsc')
-fs.rmdirSync('gcp', {recursive: true})
+try {
+    fs.rmdirSync('gcp', {recursive: true})
+} catch (e) {
+}
 copyFolderSync('build/module/gcp', 'gcp')
 
 require('esbuild').build({
