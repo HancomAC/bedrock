@@ -19,7 +19,11 @@ export default function (app: express.Application) {
             }
         }
     }))
-    app.use(express.json());
+    app.use(express.json({
+        type(req) {
+            return true;
+        }
+    }));
     app.use((error, req, res, next) => {
         res.status(500).send({error: error.message, code: 500});
     });
