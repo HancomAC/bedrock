@@ -7,10 +7,20 @@ const query = client.createQuery.bind(client);
 const save = client.save.bind(client);
 const get = client.get.bind(client);
 const atomic = async (cb: any) => {
-    const transaction = client.transaction();
-    await transaction.run();
-    await cb(transaction);
-    await transaction.commit();
+    let count = 0;
+    while (true) {
+        const transaction = client.transaction();
+        try {
+            await transaction.run();
+            await cb(transaction);
+            await transaction.commit();
+            break;
+        } catch (e) {
+            await transaction.rollback();
+            if (count++ > 5) throw e;
+            await new Promise(resolve => setTimeout(resolve, Math.random() * 10 * Math.pow(2, count)));
+        }
+    }
 }
 
 export default {client, key, query, save, get, atomic};
