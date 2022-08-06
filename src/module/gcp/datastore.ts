@@ -9,7 +9,13 @@ const get = client.get.bind(client);
 const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
     let count = 0;
     while (true) {
-        const transaction = client.transaction();
+        let transaction;
+        try {
+            transaction = client.transaction();
+        } catch (e) {
+            if (count++ >= maximumRetry) throw e;
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
         try {
             await transaction.run();
             await cb(transaction);
@@ -18,7 +24,7 @@ const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
         } catch (e) {
             await transaction.rollback();
             if (count++ > maximumRetry) throw e;
-            await new Promise(resolve => setTimeout(resolve, Math.random() * 100 * Math.pow(2, count)));
+            await new Promise(resolve => setTimeout(resolve, (Math.random() * 50 + 50) * Math.pow(2, count)));
         }
     }
 }
