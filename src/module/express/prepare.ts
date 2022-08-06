@@ -9,7 +9,7 @@ import {logm} from "../util/log";
 export default function (app: express.Application) {
     app.use(cors({
         credentials: true,
-        origin: ["https://jungol.co.kr", "https://api.jungol.co.kr", "https://beta.jungol.co.kr", "https://api-beta.jungol.co.kr","http://localhost:5173",],
+        origin: ["https://jungol.co.kr", "https://api.jungol.co.kr", "https://beta.jungol.co.kr", "https://api-beta.jungol.co.kr", "http://localhost:5173",],
     }));
     app.use(helmet());
     app.use(morgan("combined", {
@@ -19,11 +19,8 @@ export default function (app: express.Application) {
             }
         }
     }))
-    app.use(express.json({
-        type(req) {
-            return true;
-        }
-    }));
+    app.use(express.json());
+    app.use(express.urlencoded({extended: true}));
     app.use((error, req, res, next) => {
         res.status(500).send({error: error.message, code: 500});
     });
