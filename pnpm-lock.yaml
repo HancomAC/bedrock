@@ -4,6 +4,7 @@ specifiers:
   '@google-cloud/datastore': ^7.0.0
   '@google-cloud/pubsub': ^3.1.0
   '@google-cloud/storage': ^6.3.0
+  '@grpc/grpc-js': ^1.6.8
   '@types/express': ^4.17.13
   '@types/express-ws': ^3.0.1
   '@types/node': ^18.0.5
@@ -27,6 +28,7 @@ dependencies:
   '@google-cloud/datastore': 7.0.0
   '@google-cloud/pubsub': 3.1.0
   '@google-cloud/storage': 6.3.0
+  '@grpc/grpc-js': 1.6.8
   '@types/express': 4.17.13
   '@types/express-ws': 3.0.1
   '@types/uuid': 8.3.4
@@ -255,11 +257,11 @@ packages:
       - supports-color
     dev: false
 
-  /@grpc/grpc-js/1.6.7:
-    resolution: {integrity: sha512-eBM03pu9hd3VqDQG+kHahiG1x80RGkkqqRb1Pchcwqej/KkAH95gAvKs6laqaHCycYaPK+TKuNQnOz9UXYA8qw==}
+  /@grpc/grpc-js/1.6.8:
+    resolution: {integrity: sha512-Nt5tufF/O5Q310kP0cDzxznWMZW58GCTZhUUiAQ9B0K0ANKNQ4Lj/K9XK0vZg+UBKq5/7z7+8mXHHfrcwoeFJQ==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
-      '@grpc/proto-loader': 0.6.13
+      '@grpc/proto-loader': 0.7.0
       '@types/node': 18.0.5
     dev: false
 
@@ -272,6 +274,18 @@ packages:
       lodash.camelcase: 4.3.0
       long: 4.0.0
       protobufjs: 6.11.3
+      yargs: 16.2.0
+    dev: false
+
+  /@grpc/proto-loader/0.7.0:
+    resolution: {integrity: sha512-SGPZtVmqOvNfPFOA/nNPn+0Weqa5wubBgQ56+JgTbeLY2VezwtMjwPPFzh0kvQccwWT3a2TXT0ZGK/pJoOTk1A==}
+    engines: {node: '>=6'}
+    hasBin: true
+    dependencies:
+      '@types/long': 4.0.2
+      lodash.camelcase: 4.3.0
+      long: 4.0.0
+      protobufjs: 7.0.0
       yargs: 16.2.0
     dev: false
 
@@ -1107,7 +1121,7 @@ packages:
     engines: {node: '>=12'}
     hasBin: true
     dependencies:
-      '@grpc/grpc-js': 1.6.7
+      '@grpc/grpc-js': 1.6.8
       '@grpc/proto-loader': 0.6.13
       '@types/long': 4.0.2
       abort-controller: 3.0.0
@@ -1320,6 +1334,10 @@ packages:
     resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==}
     dev: false
 
+  /long/5.2.0:
+    resolution: {integrity: sha512-9RTUNjK60eJbx3uz+TEGF7fUr29ZDxR5QzXcyDpeSfeH28S9ycINflOgOlppit5U+4kNTe83KQnMEerw7GmE8w==}
+    dev: false
+
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
     engines: {node: '>=10'}
@@ -1497,6 +1515,26 @@ packages:
       '@types/long': 4.0.2
       '@types/node': 18.0.5
       long: 4.0.0
+    dev: false
+
+  /protobufjs/7.0.0:
+    resolution: {integrity: sha512-ffNIEm+quOcYtQvHdW406v1NQmZSuqVklxsXk076BtuFnlYZfigLU+JOMrTD8TUOyqHYbRI/fSVNvgd25YeN3w==}
+    engines: {node: '>=12.0.0'}
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/aspromise': 1.1.2
+      '@protobufjs/base64': 1.1.2
+      '@protobufjs/codegen': 2.0.4
+      '@protobufjs/eventemitter': 1.1.0
+      '@protobufjs/fetch': 1.1.0
+      '@protobufjs/float': 1.0.2
+      '@protobufjs/inquire': 1.1.0
+      '@protobufjs/path': 1.1.2
+      '@protobufjs/pool': 1.1.0
+      '@protobufjs/utf8': 1.1.0
+      '@types/long': 4.0.2
+      '@types/node': 18.0.5
+      long: 5.2.0
     dev: false
 
   /proxy-addr/2.0.7:
