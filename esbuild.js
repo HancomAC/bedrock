@@ -7,7 +7,8 @@ const args = require('args-parser')(process.argv);
 const makeAllPackagesExternalPlugin = {
     name: 'make-all-packages-external',
     setup(build) {
-        build.onResolve({filter: /\$[A-Za-z]+/}, () => ({external: false}))
+        build.onResolve({ filter: /[A-Z]:\/*/ }, async () => ({ external: false }));
+        build.onResolve({ filter: /\$\/*/ }, async () => ({ external: false }));
         build.onResolve({filter: /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/}, args => ({path: args.path, external: true}))
     },
 }
