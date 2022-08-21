@@ -1,7 +1,7 @@
 import express from "express";
 import {ResponseError, ResponseSuccess} from "../types/response";
 import {error} from "../util/log";
-import {ACLHandler, Handler, Request} from "../types/router";
+import {ACLHandler, Handler, PostHandler, Request} from "../types/router";
 
 export default function (...f: Handler[]): express.RequestHandler {
     f = f.filter(x => x);
@@ -22,6 +22,11 @@ export default function (...f: Handler[]): express.RequestHandler {
             }
         }
     };
+}
+
+export function justRun(f: PostHandler, g: Handler): Handler {
+    if (!f) f = async (ctx) => ctx;
+    return async (req, res, next) => f(await g(req, res, next), req, res, next)
 }
 
 export function acl(aclChecker?: ACLHandler, handler?: Handler, checkDefault = true): Handler {

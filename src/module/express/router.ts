@@ -1,7 +1,7 @@
 import express, {RouterOptions} from "express";
-import handler, {acl, generator} from "./handler";
+import handler, {acl, generator, justRun} from "./handler";
 import ws from 'express-ws';
-import {ACLHandler, Handler, RouteCallback, Router} from "../types/router";
+import {ACLHandler, Handler, PostHandler, RouteCallback, Router} from "../types/router";
 import {auth} from "../util/jwt";
 
 interface RouterConfig extends RouteCallback {
@@ -14,25 +14,50 @@ export default function (cb?: (data: RouterConfig) => any, options?: RouterOptio
         wsInstance?.applyTo?.(router)
 
         const defaultRouter = {
-            get: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
+            get: (path: string, f: Handler, {
+                auth: __auth,
+                acl: __acl,
+                post: __post
+            }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
                 let g = generator(f);
-                router.get(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
+                let h = justRun(__post, g);
+                router.get(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
             },
-            post: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
+            post: (path: string, f: Handler, {
+                auth: __auth,
+                acl: __acl,
+                post: __post
+            }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
                 let g = generator(f);
-                router.post(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
+                let h = justRun(__post, g);
+                router.post(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
             },
-            put: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
+            put: (path: string, f: Handler, {
+                auth: __auth,
+                acl: __acl,
+                post: __post
+            }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
                 let g = generator(f);
-                router.put(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
+                let h = justRun(__post, g);
+                router.put(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
             },
-            delete: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
+            delete: (path: string, f: Handler, {
+                auth: __auth,
+                acl: __acl,
+                post: __post
+            }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
                 let g = generator(f);
-                router.delete(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
+                let h = justRun(__post, g);
+                router.delete(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
             },
-            patch: (path: string, f: Handler, __auth?: any, __acl?: ACLHandler) => {
+            patch: (path: string, f: Handler, {
+                auth: __auth,
+                acl: __acl,
+                post: __post
+            }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
                 let g = generator(f);
-                router.patch(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), g));
+                let h = justRun(__post, g);
+                router.patch(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
             },
             r: async (path: string, f: Router) => {
                 router.use(path, await f(wsInstance));
