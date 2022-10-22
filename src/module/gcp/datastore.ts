@@ -7,7 +7,7 @@ const query = client.createQuery.bind(client);
 const save = client.save.bind(client);
 const get = client.get.bind(client);
 const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
-    let count = 0;
+    let count = 0, res;
     while (true) {
         let transaction;
         try {
@@ -18,7 +18,7 @@ const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
         }
         try {
             await transaction.run();
-            await cb(transaction);
+            res = await cb(transaction);
             await transaction.commit();
             break;
         } catch (e) {
@@ -27,6 +27,7 @@ const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
             await new Promise(resolve => setTimeout(resolve, (Math.random() * 50 + 50) * Math.pow(2, count)));
         }
     }
+    return res;
 }
 
 export default {client, key, query, save, get, atomic};
