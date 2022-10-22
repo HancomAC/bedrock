@@ -1,4 +1,4 @@
-import {Datastore} from "@google-cloud/datastore";
+import {Datastore, Transaction} from "@google-cloud/datastore";
 import {credentials, projectId} from './config'
 
 const client = new Datastore({projectId, credentials});
@@ -9,7 +9,7 @@ const get = client.get.bind(client);
 const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
     let count = 0, res;
     while (true) {
-        let transaction;
+        let transaction: Transaction;
         try {
             transaction = client.transaction();
         } catch (e) {
