@@ -6,7 +6,7 @@ const key = client.key.bind(client);
 const query = client.createQuery.bind(client);
 const save = client.save.bind(client);
 const get = client.get.bind(client);
-const atomic = async (cb: any, {maximumRetry} = {maximumRetry: 10}) => {
+const atomic = async (cb: (tr: Transaction) => Promise<any>, {maximumRetry} = {maximumRetry: 10}) => {
     let count = 0, res;
     while (true) {
         let transaction: Transaction;
