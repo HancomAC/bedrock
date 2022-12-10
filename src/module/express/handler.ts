@@ -1,5 +1,5 @@
 import express from "express";
-import {ResponseError, ResponseSuccess} from "../types/response";
+import {ResponseError, ResponseSuccess, ResponseRedirect} from "../types/response";
 import {error} from "../util/log";
 import {ACLHandler, Handler, PostHandler, Request} from "../types/router";
 
@@ -12,8 +12,9 @@ export default function (...f: Handler[]): express.RequestHandler {
                 const data = await i(req as Request, res, next);
                 if (data === false) continue;
                 if (data === true) return;
-                if ((data as ResponseError<any>).error) res.status((data as ResponseError<any>).code || 500);
-                await res.json(data);
+                if ((data as ResponseError<any>).code) res.status((data as ResponseError<any>).code || 500);
+                if ((data as ResponseRedirect).redirect) res.redirect((data as ResponseRedirect).redirect);
+                else await res.json(data);
                 return;
             } catch (e) {
                 error(e)
