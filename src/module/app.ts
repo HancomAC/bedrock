@@ -36,45 +36,35 @@ export default function ({port, name, cb, config}: {
                 acl: _acl,
                 post: _post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(_post, g);
-                app.get(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), h));
+                app.get(path, generator(f, g => handler(auth(!!_auth), acl(_acl, g), auth(_auth), justRun(_post, g))));
             },
             post: (path: string, f: Handler, {
                 auth: _auth,
                 acl: _acl,
                 post: _post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(_post, g);
-                app.post(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), h));
+                app.post(path, generator(f, g => handler(auth(!!_auth), acl(_acl, g), auth(_auth), justRun(_post, g))));
             },
             put: (path: string, f: Handler, {
                 auth: _auth,
                 acl: _acl,
                 post: _post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(_post, g);
-                app.put(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), h));
+                app.put(path, generator(f, g => handler(auth(!!_auth), acl(_acl, g), auth(_auth), justRun(_post, g))));
             },
             delete: (path: string, f: Handler, {
                 auth: _auth,
                 acl: _acl,
                 post: _post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(_post, g);
-                app.delete(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), h));
+                app.delete(path, generator(f, g => handler(auth(!!_auth), acl(_acl, g), auth(_auth), justRun(_post, g))));
             },
             patch: (path: string, f: Handler, {
                 auth: _auth,
                 acl: _acl,
                 post: _post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(_post, g);
-                app.patch(path, handler(auth(!!_auth), g.refresh, acl(_acl, g), auth(_auth), h));
+                app.patch(path, generator(f, g => handler(auth(!!_auth), acl(_acl, g), auth(_auth), justRun(_post, g))));
             },
             r: async (path: string, f: Router) => {
                 app.use(path, await f(instance));

@@ -41,16 +41,16 @@ export function acl(aclChecker?: ACLHandler, handler?: Handler, checkDefault = t
     }
 }
 
-export function generator(f: Handler | express.RequestHandler) {
-    let data = null;
+export function generator(f: Handler | express.RequestHandler, h: (f: Handler) => express.RequestHandler = x => x): express.RequestHandler {
+    let data = undefined;
     const g = async (req, res, next) => {
-        if (data) return data;
+        if (data !== undefined) return data;
         data = await f(req, res, next);
         return data;
     }
     g.refresh = async () => {
-        data = null;
+        data = undefined;
         return false;
     }
-    return g;
+    return h(g);
 }

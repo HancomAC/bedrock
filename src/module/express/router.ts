@@ -19,45 +19,35 @@ export default function (cb?: (data: RouterConfig) => any, options?: RouterOptio
                 acl: __acl,
                 post: __post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(__post, g);
-                router.get(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
+                router.get(path, generator(f, g => handler(auth(!!(_auth || __auth)), acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), justRun(__post, g))));
             },
             post: (path: string, f: Handler, {
                 auth: __auth,
                 acl: __acl,
                 post: __post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(__post, g);
-                router.post(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
+                router.post(path, generator(f, g => handler(auth(!!(_auth || __auth)), acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), justRun(__post, g))));
             },
             put: (path: string, f: Handler, {
                 auth: __auth,
                 acl: __acl,
                 post: __post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(__post, g);
-                router.put(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
+                router.put(path, generator(f, g => handler(auth(!!(_auth || __auth)), acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), justRun(__post, g))));
             },
             delete: (path: string, f: Handler, {
                 auth: __auth,
                 acl: __acl,
                 post: __post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(__post, g);
-                router.delete(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
+                router.delete(path, generator(f, g => handler(auth(!!(_auth || __auth)), acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), justRun(__post, g))));
             },
             patch: (path: string, f: Handler, {
                 auth: __auth,
                 acl: __acl,
                 post: __post
             }: { auth?: any, acl?: ACLHandler, post?: PostHandler } = {}) => {
-                let g = generator(f);
-                let h = justRun(__post, g);
-                router.patch(path, handler(auth(!!(_auth || __auth)), g.refresh, acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), h));
+                router.patch(path, generator(f, g => handler(auth(!!(_auth || __auth)), acl(_acl, g), acl(__acl, g), auth(_auth), auth(__auth), justRun(__post, g))));
             },
             r: async (path: string, f: Router) => {
                 router.use(path, await f(wsInstance));
@@ -75,10 +65,7 @@ export default function (cb?: (data: RouterConfig) => any, options?: RouterOptio
                 router,
                 ...defaultRouter,
                 use: (...args) => {
-                    router.use(args[0], ...args.slice(1).map(r => {
-                        let g = generator(r);
-                        return handler(auth(!!_auth), g.refresh, acl(_acl, g, false), auth(_auth), g)
-                    }));
+                    router.use(args[0], ...args.slice(1).map(r => generator(r, g => handler(auth(!!_auth), acl(_acl, g, false), auth(_auth), g))));
                 },
                 ws: router.ws?.bind?.(router)
             })
