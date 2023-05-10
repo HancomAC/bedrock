@@ -1,4 +1,4 @@
-import {Datastore, Transaction} from "@google-cloud/datastore";
+import {Datastore, Transaction, PropertyFilter} from "@google-cloud/datastore";
 import {credentials, projectId} from './config'
 
 const client = new Datastore({projectId, credentials});
@@ -30,4 +30,5 @@ const atomic = async (cb: (tr: Transaction) => Promise<any>, {maximumRetry} = {m
     return res;
 }
 
-export default {client, key, query, save, get, atomic};
+export default {PropertyFilter, client, key, query, save, get, atomic};
+export {PropertyFilter, client, key, query, save, get, atomic};
