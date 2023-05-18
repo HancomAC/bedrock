@@ -54,13 +54,13 @@ const config = JSON.stringify({
 
 const opt: any = {
     entryPoints: [path.join(process.cwd(), args.entry)],
-    outfile: path.join(process.cwd(), args.dist || 'build/index.mjs'),
+    outfile: path.join(process.cwd(), args.dist || 'build/index.js'),
     bundle: true,
     plugins: args.dev ? [runServerPlugin, makeAllPackagesExternalPlugin] : [makeAllPackagesExternalPlugin],
     platform: 'node',
     define: {config},
     tsconfig: path.join(process.cwd(), 'tsconfig.json'),
-    format: 'esm',
+    format: 'cjs',
 };
 
 if (!args.dev) esbuild.build(opt).then(result => {
