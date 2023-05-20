@@ -60,7 +60,7 @@ const opt: any = {
     platform: 'node',
     define: {config},
     tsconfig: path.join(process.cwd(), 'tsconfig.json'),
-    format: 'cjs',
+    format: 'esm',
 };
 
 if (!args.dev) esbuild.build(opt).then(result => {

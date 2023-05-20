@@ -1,22 +1,33 @@
-const childProcess = require('child_process');
-const packageJson = require('./package.json');
-const path = require('path');
-const fs = require("fs");
-const args = require('args-parser')(process.argv);
+import * as childProcess from 'child_process';
+import * as fs from "fs";
+import * as path from "path";
+import * as esbuild from 'esbuild';
+import argParser from 'args-parser';
+
+const args = argParser(process.argv);
+const packageJson = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json"), "utf8"));
+
+const getOutput = (command, options) => {
+    try {
+        return childProcess.execSync(command, options).toString().trim()
+    } catch (e) {
+        return '';
+    }
+}
 
 const makeAllPackagesExternalPlugin = {
     name: 'make-all-packages-external',
     setup(build) {
-        build.onResolve({ filter: /[A-Z]:\/*/ }, async () => ({ external: false }));
-        build.onResolve({ filter: /\$\/*/ }, async () => ({ external: false }));
+        build.onResolve({filter: /[A-Z]:\/*/}, async () => ({external: false}));
+        build.onResolve({filter: /\$\/*/}, async () => ({external: false}));
         build.onResolve({filter: /^[^.\/]|^\.[^.\/]|^\.\.[^\/]/}, args => ({path: args.path, external: true}))
     },
 }
 
 const config = JSON.stringify({
     'version': packageJson.version,
-    'commitHash': childProcess.execSync('git rev-parse HEAD', {cwd: process.cwd()}).toString().trim(),
-    'commitCount': parseInt(childProcess.execSync('git rev-list --count HEAD', {cwd: process.cwd()}).toString().trim()),
+    'commitHash': getOutput('git rev-parse HEAD', {cwd: process.cwd()}) || '',
+    'commitCount': parseInt(getOutput('git rev-list --count HEAD', {cwd: process.cwd()}) || '0'),
     'buildDate': new Date().toISOString(),
     'port': args.port || (args.dev ? 3006 : 80),
     'dev': args.dev,
@@ -33,8 +44,6 @@ const typePlugin = {
     }
 }
 
-let builded;
-
 function copyFolderSync(from, to) {
     fs.mkdirSync(to);
     fs.readdirSync(from).forEach(element => {
@@ -47,19 +56,20 @@ function copyFolderSync(from, to) {
 }
 
 fs.writeFileSync('src/module/config.ts', `export default ${config}`)
-childProcess.execSync('tsc')
+childProcess.execSync('tsc --module es2022')
 try {
     fs.rmdirSync('gcp', {recursive: true})
 } catch (e) {
 }
 copyFolderSync('build/module/gcp', 'gcp')
 
-require('esbuild').build({
+esbuild.build({
     entryPoints: ['./src/runner.ts'],
     outfile: 'build/runner.js',
     bundle: true,
     plugins: [makeAllPackagesExternalPlugin],
     platform: 'node',
+    format: 'esm',
 }).then(() => {
     console.log('✔ Build successful.')
 })

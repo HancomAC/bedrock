@@ -1,9 +1,10 @@
 {
   "name": "@hancomeducation/bedrock",
-  "version": "1.9.4",
+  "version": "2.0.1",
   "description": "Jungol common backend platform",
   "main": "build/module/index.js",
   "types": "build/module/index.d.ts",
+  "type": "module",
   "scripts": {
     "build": "node esbuild.js",
     "deploy": "npm run build && npm publish --access public"
