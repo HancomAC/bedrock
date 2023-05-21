@@ -9,7 +9,7 @@ import {logm} from "../util/log";
 export default function (app: express.Application) {
     app.use(cors({
         credentials: true,
-        origin: ["https://jungol.co.kr", "https://api.jungol.co.kr", "https://beta.jungol.co.kr", "https://api-beta.jungol.co.kr", "http://localhost:5173",],
+        origin: ["https://jungol.co.kr", "https://api.jungol.co.kr", "https://beta.jungol.co.kr", "https://api-beta.jungol.co.kr", "http://localhost:5173", "https://*.v6-7sg.pages.dev"],
     }));
     app.use(helmet());
     app.use(morgan("combined", {
